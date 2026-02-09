@@ -161,7 +161,8 @@
                         </div>
                         <div class="relative group">
                             <i data-lucide="phone" class="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors w-5 h-5"></i>
-                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="05[0-9]{8}" title="נא להזין מספר תקין (10 ספרות, מתחיל ב-05)">
+                            <!-- Updated Pattern for International Numbers -->
+                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="^[+]?[0-9\s\-]{9,20}$" title="נא להזין מספר טלפון תקין (9-20 ספרות, ניתן לכלול + ומקפים)">
                         </div>
                     </div>
                     
@@ -325,7 +326,8 @@
                     <form id="formBottom" class="flex flex-col gap-6 mt-6">
                         <div class="grid md:grid-cols-2 gap-4">
                             <input type="text" name="fullName" placeholder="שם מלא" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required minlength="2">
-                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="05[0-9]{8}">
+                            <!-- Updated Pattern for International Numbers -->
+                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="^[+]?[0-9\s\-]{9,20}$" title="נא להזין מספר טלפון תקין (9-20 ספרות, ניתן לכלול + ומקפים)">
                         </div>
                         <input type="email" name="email" placeholder="דואר אלקטרוני" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required>
                         
@@ -365,33 +367,62 @@
         // Initialize Icons
         lucide.createIcons();
 
+        // Webhook URL
+        const WEBHOOK_URL = 'https://hook.eu2.make.com/on92hq4nkddrpn5b2ugp5lt7wihioyrg';
+
         // Form Handling Logic
         function setupForm(formId, successId) {
             const form = document.getElementById(formId);
             const successMsg = document.getElementById(successId);
             const errorMsg = form.querySelector('.error-message');
             const btn = form.querySelector('button');
-            const originalBtnText = btn.innerHTML;
+            // Store original text without the icon HTML for simplicity when restoring
+            const originalBtnContent = btn.innerHTML;
 
-            form.addEventListener('submit', (e) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
-                // Basic Validation
+                // Basic HTML5 Validation
                 if (!form.checkValidity()) {
                     errorMsg.classList.remove('hidden');
                     return;
                 }
                 errorMsg.classList.add('hidden');
 
-                // Simulate Sending
+                // UI Loading State
                 btn.disabled = true;
                 btn.innerHTML = '<span class="relative z-10">שולח...</span>';
 
-                setTimeout(() => {
-                    form.classList.add('hidden');
-                    successMsg.classList.remove('hidden');
-                    lucide.createIcons(); // Refresh icons if needed
-                }, 1500);
+                // Collect Data
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    // Send to Make Webhook
+                    const response = await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                        // Success
+                        form.classList.add('hidden');
+                        successMsg.classList.remove('hidden');
+                        lucide.createIcons(); // Refresh icons in success message
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('אירעה שגיאה בשליחה. אנא נסו שנית.');
+                    // Restore button
+                    btn.disabled = false;
+                    btn.innerHTML = originalBtnContent;
+                    lucide.createIcons(); // Re-render icons in button
+                }
             });
         }
 
