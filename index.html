@@ -175,17 +175,6 @@
                     </div>
                 </form>
 
-                <!-- Success Message -->
-                <div id="successTop" class="hidden mt-6 p-10 bg-[#F0FDF4] border border-[#DCFCE7] rounded-3xl text-green-800 text-center animate-in fade-in zoom-in">
-                    <div class="flex flex-col items-center">
-                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
-                            <i data-lucide="check" class="w-10 h-10 text-[#1B4D3E]"></i>
-                        </div>
-                        <h3 class="font-bold text-3xl mb-2">מיד עוברים להדרכה...</h3>
-                        <p class="text-xl opacity-80">תהני!</p>
-                    </div>
-                </div>
-
                 <p class="text-sm mt-8 flex justify-center items-center gap-6 text-gray-400 font-light">
                     <span class="flex items-center gap-2"><i data-lucide="lock" class="w-4 h-4"></i> הגישה תישלח אלייך באופן מיידי למייל</span>
                 </p>
@@ -313,13 +302,6 @@
                         </div>
                     </form>
 
-                    <!-- Success Message -->
-                    <div id="successBottom" class="hidden mt-8 p-6 bg-green-50 border border-green-200 rounded-2xl text-green-800 text-center animate-in zoom-in">
-                        <i data-lucide="check" class="w-14 h-14 text-green-500 mx-auto mb-4"></i>
-                        <h3 class="font-bold text-2xl">מיד עוברים להדרכה...</h3>
-                        <p class="text-lg">אנא המתיני.</p>
-                    </div>
-
                     <p class="text-sm text-gray-400 mt-8 flex justify-center gap-6 font-light">
                         <span class="flex items-center gap-1"><i data-lucide="lock" class="w-4 h-4"></i> הגישה תישלח אלייך באופן מיידי למייל</span>
                     </p>
@@ -343,9 +325,8 @@
         const WEBHOOK_URL = 'https://hook.eu2.make.com/on92hq4nkddrpn5b2ugp5lt7wihioyrg';
 
         // Form Handling Logic
-        function setupForm(formId, successId) {
+        function setupForm(formId) {
             const form = document.getElementById(formId);
-            const successMsg = document.getElementById(successId);
             const errorMsg = form.querySelector('.error-message');
             const btn = form.querySelector('button');
             const originalBtnContent = btn.innerHTML;
@@ -379,14 +360,8 @@
                     });
 
                     if (response.ok) {
-                        // Success
-                        form.classList.add('hidden');
-                        successMsg.classList.remove('hidden');
-                        lucide.createIcons(); // Refresh icons in success message
-                        
                         // REDIRECT IMMEDIATELY
                         window.location.href = 'web.html';
-
                     } else {
                         throw new Error('Network response was not ok');
                     }
@@ -401,8 +376,8 @@
             });
         }
 
-        setupForm('formTop', 'successTop');
-        setupForm('formBottom', 'successBottom');
+        setupForm('formTop');
+        setupForm('formBottom');
     </script>
 </body>
 </html>
