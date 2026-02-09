@@ -1,140 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Sparkles, 
-  ChevronLeft, 
-  Check, 
-  Leaf, 
-  PlayCircle,
-  User,
-  Mail,
-  Phone,
-  Lock,
-  Star,
-} from 'lucide-react';
-
-const LandingPage = () => {
-  // --- Form State ---
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: ''
-  });
-  
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  // --- Initialize & Load Footer ---
-  useEffect(() => {
-    setMounted(true);
-
-    // Load external legal footer script
-    const script = document.createElement('script');
-    script.src = "https://rivkaol.github.io/legal-footer.js";
-    script.async = true;
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>רבקה הולצברג - הדרכה מוקלטת</title>
     
-    // Append to the specific container at the bottom
-    const footerContainer = document.getElementById('legal-footer-container');
-    if (footerContainer) {
-      footerContainer.appendChild(script);
-    } else {
-      document.body.appendChild(script);
-    }
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Rubik -->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-    return () => {
-      // Cleanup on unmount if necessary
-      if (footerContainer && footerContainer.contains(script)) {
-        footerContainer.removeChild(script);
-      } else if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-    };
-  }, []);
+    <style>
+        /* Force Rubik Font */
+        body, input, button {
+            font-family: 'Rubik', sans-serif;
+        }
 
-  // --- Theme Strategy ---
-  const theme = {
-    colors: {
-      primary: '#1B4D3E',       // Forest Green
-      accent: '#D4AF37',        // Luxury Gold
-      slate: '#708090',         // Slate Blue
-      bgCream: '#FDFBF7',       // Pearl Cream
-      white: '#FFFFFF',
-      textMain: '#333333',
-    }
-  };
+        /* Custom Colors */
+        :root {
+            --primary: #1B4D3E;
+            --accent: #D4AF37;
+            --slate: #708090;
+            --cream: #FDFBF7;
+        }
 
-  // --- Logic ---
-  const validateForm = () => {
-    let tempErrors = {};
-    let isValid = true;
-
-    if (!formData.fullName || formData.fullName.length < 2) {
-      tempErrors.fullName = 'נא להזין שם מלא (מינימום 2 אותיות)';
-      isValid = false;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email || !emailRegex.test(formData.email)) {
-      tempErrors.email = 'נא להזין אימייל תקין';
-      isValid = false;
-    }
-
-    const phoneRegex = /^05\d{8}$/;
-    if (!formData.phone || !phoneRegex.test(formData.phone)) {
-      tempErrors.phone = 'מספר נייד לא תקין';
-      isValid = false;
-    }
-
-    setErrors(tempErrors);
-    return isValid;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      setIsSubmitting(true);
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setIsSuccess(true);
-      }, 1500);
-    }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
-  };
-
-  return (
-    <div className="min-h-screen relative font-sans text-[#333333] overflow-x-hidden" dir="rtl" style={{ backgroundColor: theme.colors.bgCream }}>
-      
-      {/* --- STYLES & ANIMATIONS --- */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&display=swap');
-        * { font-family: 'Rubik', sans-serif !important; }
-        
+        /* Animations */
         @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-          100% { transform: translateY(0px); }
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
         @keyframes shine {
-          0% { left: -100%; opacity: 0; }
-          50% { opacity: 0.5; }
-          100% { left: 100%; opacity: 0; }
+            0% { left: -100%; opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { left: 100%; opacity: 0; }
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .animate-enter {
-          animation: fadeInUp 0.8s ease-out forwards;
-          opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0; /* Start hidden */
         }
         
         .delay-100 { animation-delay: 0.1s; }
@@ -143,332 +62,344 @@ const LandingPage = () => {
         .delay-400 { animation-delay: 0.4s; }
 
         .animate-float {
-          animation: float 6s ease-in-out infinite;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-shine::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 50%;
-          height: 100%;
-          background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-          transform: skewX(-25deg);
-          animation: shine 3s infinite;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
         }
-      `}</style>
 
-      {/* --- Background Pattern --- */}
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
-           style={{
-             backgroundImage: `radial-gradient(${theme.colors.slate} 0.5px, transparent 0.5px), radial-gradient(${theme.colors.primary} 0.5px, ${theme.colors.bgCream} 0.5px)`,
-             backgroundSize: '24px 24px'
-           }}>
-      </div>
+        /* Background Pattern */
+        .bg-pattern {
+            background-image: radial-gradient(#708090 0.5px, transparent 0.5px), radial-gradient(#1B4D3E 0.5px, #FDFBF7 0.5px);
+            background-size: 24px 24px;
+            opacity: 0.03;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-[#333333] bg-[#FDFBF7] relative overflow-x-hidden">
 
-      {/* --- Main Content --- */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-10">
+    <!-- Background Pattern -->
+    <div class="fixed inset-0 bg-pattern pointer-events-none z-0"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-10">
         
-        {/* Header - LOGO FROM GITHUB */}
-        <header className={`flex justify-center mb-12 ${mounted ? 'animate-enter' : 'opacity-0'}`}>
-           <div className="h-24 md:h-32 flex items-center justify-center hover:scale-105 transition-transform duration-500">
-             <img 
-               src="https://rivkaol.github.io/logo.jpg.png" 
-               alt="רבקה הולצברג" 
-               className="h-full object-contain drop-shadow-sm"
-             />
-           </div>
+        <!-- Header -->
+        <header class="flex justify-center mb-12 animate-enter">
+            <div class="h-24 md:h-32 flex items-center justify-center hover:scale-105 transition-transform duration-500">
+                <img src="https://rivkaol.github.io/logo.jpg.png" alt="רבקה הולצברג" class="h-full object-contain drop-shadow-sm">
+            </div>
         </header>
 
-        {/* --- HERO SECTION --- */}
-        <div className="text-center mb-20">
-          
-          {/* Top Tag - Immediate Viewing */}
-          <div className={`inline-flex items-center gap-2 px-6 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.03)] text-lg font-medium mb-8 border border-slate-100 ${mounted ? 'animate-enter delay-100' : 'opacity-0'}`} style={{ color: theme.colors.slate }}>
-            <PlayCircle size={20} className="text-[#708090] fill-[#708090] fill-opacity-20" />
-            <span>הדרכה מוקלטת לצפייה מיידית</span>
-          </div>
-
-          {/* Main Title (H1) */}
-          <h1 className={`text-5xl md:text-7xl font-black leading-tight mb-8 drop-shadow-sm ${mounted ? 'animate-enter delay-200' : 'opacity-0'}`} style={{ color: theme.colors.primary }}>
-            להכניס איזון אמיתי לחיים<br/>
-            <span className="relative inline-block px-2">
-              הרגל אחד בכל פעם
-              <span className="absolute bottom-3 right-0 w-full h-3 -z-10 opacity-10 rounded-full" style={{ backgroundColor: theme.colors.slate }}></span>
-            </span>
-          </h1>
-
-          {/* Sub-Head */}
-          <div className={`max-w-4xl mx-auto mb-10 space-y-4 ${mounted ? 'animate-enter delay-300' : 'opacity-0'}`}>
-            <h2 className="text-2xl md:text-3xl font-light leading-relaxed" style={{ color: theme.colors.textMain }}>
-              מרגישה שכל שינוי מתחיל בהתלהבות... ואז לאט לאט מתמסמס?<br/>
-              נמאס לך מהבטחות של "מהיום אני מתחילה מחדש" שמחזיקות רק ימים?
-            </h2>
-            <p className="text-2xl font-medium pt-2" style={{ color: theme.colors.slate }}>
-              הגיע הזמן להפסיק להישען על כוח רצון, ולעבור להתמדה חכמה.
-            </p>
-          </div>
-          
-          {/* Offer Text - Clean & Elegant Design */}
-          <div className={`max-w-3xl mx-auto mb-16 ${mounted ? 'animate-enter delay-400' : 'opacity-0'}`}>
-            <div className="text-xl md:text-2xl leading-relaxed text-gray-700 flex flex-col items-center gap-4">
-               <span>הצטרפי להדרכה מיוחדת (ללא עלות) שתגלי בה דרך אחרת.</span>
-               <div className="mt-1 font-bold text-[#1B4D3E] bg-white border border-[#EAF2EF] px-6 py-2 rounded-full inline-flex items-center gap-2 transform hover:scale-105 transition-all duration-300 shadow-sm cursor-default">
-                  <PlayCircle size={18} className="fill-current text-[#1B4D3E]" />
-                  זמינה עבורך לצפייה מיידית עכשיו
-               </div>
-            </div>
-          </div>
-
-          {/* *** HERO FORM SECTION *** */}
-          <div className={`bg-white rounded-[40px] p-8 md:p-12 shadow-[0_30px_60px_rgba(27,77,62,0.06)] border border-slate-50 relative max-w-2xl mx-auto mb-20 transform hover:-translate-y-1 transition-all duration-500 ${mounted ? 'animate-enter delay-300' : 'opacity-0'}`}>
+        <!-- HERO SECTION -->
+        <div class="text-center mb-20">
             
-            <h3 className="text-3xl font-bold text-center mb-8 mt-2" style={{ color: theme.colors.primary }}>
-              לקבלת גישה מיידית להדרכה
-            </h3>
+            <!-- Top Tag -->
+            <div class="inline-flex items-center gap-2 px-6 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.03)] text-lg font-medium mb-8 border border-slate-100 text-[#708090] animate-enter delay-100">
+                <i data-lucide="play-circle" class="w-5 h-5 text-[#708090] fill-[#708090] fill-opacity-20"></i>
+                <span>הדרכה מוקלטת לצפייה מיידית</span>
+            </div>
 
-            {!isSuccess ? (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="relative group">
-                    <User className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors" size={20} />
-                    <input 
-                      type="text" 
-                      name="fullName"
-                      value={formData.fullName}
-                      onChange={handleChange}
-                      placeholder="שם מלא"
-                      className="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400"
-                    />
-                  </div>
-                  <div className="relative group">
-                    <Phone className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors" size={20} />
-                    <input 
-                      type="tel" 
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="מספר נייד"
-                      maxLength={10}
-                      className="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400"
-                    />
-                  </div>
-                </div>
-                
-                <div className="relative group">
-                  <Mail className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors" size={20} />
-                  <input 
-                    type="email" 
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="דואר אלקטרוני"
-                    className="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400"
-                  />
-                </div>
+            <!-- Main Title -->
+            <h1 class="text-5xl md:text-7xl font-black leading-tight mb-8 drop-shadow-sm text-[#1B4D3E] animate-enter delay-200">
+                להכניס איזון אמיתי לחיים<br/>
+                <span class="relative inline-block px-2">
+                    הרגל אחד בכל פעם
+                    <span class="absolute bottom-3 right-0 w-full h-3 -z-10 opacity-10 rounded-full bg-[#708090]"></span>
+                </span>
+            </h1>
 
-                {/* GOLD CTA BUTTON with SHINE */}
-                <button 
-                  type="submit" 
-                  disabled={isSubmitting}
-                  className="btn-shine w-full py-5 text-xl font-bold text-white rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex justify-center items-center gap-3 mt-4 relative overflow-hidden"
-                  style={{ background: `linear-gradient(135deg, ${theme.colors.accent}, #C59F2B)` }}
-                >
-                  <span className="relative z-10">{isSubmitting ? 'שולח...' : 'אני רוצה צפייה מיידית בהדרכה'}</span>
-                  {!isSubmitting && <ChevronLeft strokeWidth={3} className="relative z-10" />}
-                </button>
-                
-                {Object.keys(errors).length > 0 && (
-                   <div className="text-red-500 text-sm text-center font-medium mt-2 bg-red-50 py-2 rounded-lg">
-                     נא לתקן את השדות המסומנים
-                   </div>
-                )}
-              </form>
-            ) : (
-              <div className="mt-6 p-10 bg-[#F0FDF4] border border-[#DCFCE7] rounded-3xl text-green-800 text-center animate-in fade-in zoom-in">
-                 <div className="flex flex-col items-center">
-                    <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
-                      <Check className="w-10 h-10 text-[#1B4D3E]" />
-                    </div>
-                    <h3 className="font-bold text-3xl mb-2">ההקלטה בדרך אלייך!</h3>
-                    <p className="text-xl opacity-80">בדקי את תיבת המייל שלך בדקות הקרובות.</p>
-                 </div>
-              </div>
-            )}
-
-            <p className="text-sm mt-8 flex justify-center items-center gap-6 text-gray-400 font-light">
-               <span className="flex items-center gap-2"><Lock size={14} /> הגישה תישלח אלייך באופן מיידי למייל</span>
-            </p>
-          </div>
-        </div>
-
-        {/* --- WHAT WILL YOU LEARN (Cleaner Layout) --- */}
-        <div className="max-w-4xl mx-auto mb-24">
-           
-           <div className="rounded-[40px] p-10 md:p-16 relative bg-white/70 backdrop-blur-sm border border-white/50 shadow-[0_4px_30px_rgba(0,0,0,0.02)]">
-              
-              <div className="text-center mb-12 relative z-10">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: theme.colors.primary }}>
-                  מה תלמדי בהדרכה?
+            <!-- Sub-Head -->
+            <div class="max-w-4xl mx-auto mb-10 space-y-4 animate-enter delay-300">
+                <h2 class="text-2xl md:text-3xl font-light leading-relaxed text-[#333333]">
+                    מרגישה שכל שינוי מתחיל בהתלהבות... ואז לאט לאט מתמסמס?<br/>
+                    נמאס לך מהבטחות של "מהיום אני מתחילה מחדש" שמחזיקות רק ימים?
                 </h2>
-                <p className="text-xl opacity-60 font-light tracking-wide" style={{ color: theme.colors.slate }}>
-                  כלים לשקט תעשייתי וסדר פנימי
+                <p class="text-2xl font-medium pt-2 text-[#708090]">
+                    הגיע הזמן להפסיק להישען על כוח רצון, ולעבור להתמדה חכמה.
                 </p>
-              </div>
+            </div>
+            
+            <!-- Offer Text -->
+            <div class="max-w-3xl mx-auto mb-16 animate-enter delay-400">
+                <div class="text-xl md:text-2xl leading-relaxed text-gray-700 flex flex-col items-center gap-4">
+                    <span>הצטרפי להדרכה מיוחדת (ללא עלות) שתגלי בה דרך אחרת.</span>
+                    <div class="mt-1 font-bold text-[#1B4D3E] bg-white border border-[#EAF2EF] px-6 py-2 rounded-full inline-flex items-center gap-2 transform hover:scale-105 transition-all duration-300 shadow-sm cursor-default">
+                        <i data-lucide="play-circle" class="w-5 h-5 fill-current text-[#1B4D3E]"></i>
+                        זמינה עבורך לצפייה מיידית עכשיו
+                    </div>
+                </div>
+            </div>
 
-              <div className="space-y-6 relative z-10">
-                 {[
-                   { title: 'הסוף ל"הכל או כלום"', desc: 'איך להשתחרר מהגישה המעייפת ולצמוח בקצב שלך.' },
-                   { title: 'בחירת ההרגל המדויק', desc: 'איך לבחור שינוי אחד שבאמת מתאים לחיים העמוסים שלך.' },
-                   { title: 'מנגנון ההתמדה', desc: 'הדרך הפשוטה לבנות משוב שבועי ששומר עלייך במסלול.' },
-                   { title: 'תוכנית מעשית', desc: 'צעדים שתוכלי ליישם כבר הערב, בלי לחץ ובלי דרמות.' }
-                 ].map((item, idx) => (
-                   <div key={idx} className="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
-                      <div className="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
-                        <Check size={24} style={{ color: theme.colors.slate }} strokeWidth={2.5} />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold mb-2" style={{ color: theme.colors.primary }}>{item.title}</h3>
-                        <p className="text-lg text-gray-600 leading-relaxed font-light">{item.desc}</p>
-                      </div>
-                   </div>
-                 ))}
-              </div>
+            <!-- *** HERO FORM SECTION *** -->
+            <div class="bg-white rounded-[40px] p-8 md:p-12 shadow-[0_30px_60px_rgba(27,77,62,0.06)] border border-slate-50 relative max-w-2xl mx-auto mb-20 transform hover:-translate-y-1 transition-all duration-500 animate-enter delay-300">
+                
+                <h3 class="text-3xl font-bold text-center mb-8 mt-2 text-[#1B4D3E]">
+                    לקבלת גישה מיידית להדרכה
+                </h3>
 
-           </div>
-        </div>
-
-        {/* --- WHO AM I --- */}
-        <div className="mb-32 max-w-5xl mx-auto">
-           <div className="flex flex-col md:flex-row items-center gap-16">
-              
-              {/* Text Side */}
-              <div className="flex-1 order-2 md:order-1">
-                 <h2 className="text-4xl md:text-5xl font-bold mb-8 relative inline-block" style={{ color: theme.colors.primary }}>
-                    נעים להכיר, אני רבקה
-                    <span className="absolute -bottom-3 right-0 w-full h-1.5 rounded-full opacity-20" style={{ backgroundColor: theme.colors.slate }}></span>
-                 </h2>
-
-                 <div className="space-y-6 text-xl leading-relaxed text-gray-700 font-light">
-                    <p>
-                       אני יודעת בדיוק איך זה מרגיש להתחיל תהליך עם כל הלב, ואז לאט־לאט לאבד את הקצב.
-                    </p>
-                    <p>
-                       כבר שנים אני מלווה נשים בתהליכים של ירידה במשקל ואורח חיים בריא, אבל האמת? גם אני הייתי שם. ניסיתי תפריטים, ניסיתי משמעת.
-                    </p>
+                <!-- Top Form -->
+                <form id="formTop" class="flex flex-col gap-5">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="relative group">
+                            <i data-lucide="user" class="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors w-5 h-5"></i>
+                            <input type="text" name="fullName" placeholder="שם מלא" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required minlength="2">
+                        </div>
+                        <div class="relative group">
+                            <i data-lucide="phone" class="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors w-5 h-5"></i>
+                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="05[0-9]{8}" title="נא להזין מספר תקין (10 ספרות, מתחיל ב-05)">
+                        </div>
+                    </div>
                     
-                    <div className="p-8 rounded-3xl bg-white border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.03)] border-r-4 transition-transform hover:scale-[1.02]" style={{ borderColor: theme.colors.slate }}>
-                       <p className="text-xl font-medium text-[#1B4D3E]">
-                         עד שהבנתי שהשינוי נבנה מהרגל אחד בכל פעם.
-                       </p>
+                    <div class="relative group">
+                        <i data-lucide="mail" class="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors w-5 h-5"></i>
+                        <input type="email" name="email" placeholder="דואר אלקטרוני" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required>
                     </div>
 
-                    <p>
-                       בדיוק את זה אני מראה לך בהדרכה שלפנייך - איך לבנות הרגלים שיישארו איתך לכל החיים.
+                    <button type="submit" class="btn-shine w-full py-5 text-xl font-bold text-white rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex justify-center items-center gap-3 mt-4" style="background: linear-gradient(135deg, #D4AF37, #C59F2B);">
+                        <span class="relative z-10">אני רוצה צפייה מיידית בהדרכה</span>
+                        <i data-lucide="chevron-left" class="relative z-10 w-6 h-6 stroke-[3]"></i>
+                    </button>
+                    
+                    <div class="error-message hidden text-red-500 text-sm text-center font-medium mt-2 bg-red-50 py-2 rounded-lg">
+                        נא לתקן את השדות המסומנים
+                    </div>
+                </form>
+
+                <!-- Success Message (Hidden by default) -->
+                <div id="successTop" class="hidden mt-6 p-10 bg-[#F0FDF4] border border-[#DCFCE7] rounded-3xl text-green-800 text-center animate-in fade-in zoom-in">
+                    <div class="flex flex-col items-center">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
+                            <i data-lucide="check" class="w-10 h-10 text-[#1B4D3E]"></i>
+                        </div>
+                        <h3 class="font-bold text-3xl mb-2">ההקלטה בדרך אלייך!</h3>
+                        <p class="text-xl opacity-80">בדקי את תיבת המייל שלך בדקות הקרובות.</p>
+                    </div>
+                </div>
+
+                <p class="text-sm mt-8 flex justify-center items-center gap-6 text-gray-400 font-light">
+                    <span class="flex items-center gap-2"><i data-lucide="lock" class="w-4 h-4"></i> הגישה תישלח אלייך באופן מיידי למייל</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- WHAT YOU WILL LEARN -->
+        <div class="max-w-4xl mx-auto mb-24">
+            <div class="rounded-[40px] p-10 md:p-16 relative bg-white/70 backdrop-blur-sm border border-white/50 shadow-[0_4px_30px_rgba(0,0,0,0.02)]">
+                
+                <div class="text-center mb-12 relative z-10">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#1B4D3E]">
+                        מה תלמדי בהדרכה?
+                    </h2>
+                    <p class="text-xl opacity-60 font-light tracking-wide text-[#708090]">
+                        כלים לשקט תעשייתי וסדר פנימי
                     </p>
-                 </div>
-              </div>
+                </div>
 
-              {/* Image Side - PROFILE IMAGE FROM GITHUB */}
-              <div className="flex-1 w-full order-1 md:order-2">
-                 <div className="bg-white rounded-[40px] h-[500px] w-full relative overflow-hidden shadow-[0_20px_50px_rgba(27,77,62,0.1)] border-[8px] border-white group">
-                    <img 
-                      src="https://rivkaol.github.io/profile.jpg.jpg" 
-                      alt="רבקה הולצברג" 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                    />
-                 </div>
-              </div>
-
-           </div>
-        </div>
-
-        {/* --- BOTTOM OFFER (Clean & Bright) --- */}
-        <div className="mb-20 rounded-[40px] p-10 md:p-20 text-center relative overflow-hidden bg-[#708090]">
-           {/* Background Blobs - Softer */}
-           <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-              <div className="absolute top-10 right-10 w-60 h-60 rounded-full bg-white blur-[80px]"></div>
-              <div className="absolute bottom-10 left-10 w-80 h-80 rounded-full blur-[80px]" style={{ backgroundColor: theme.colors.primary }}></div>
-           </div>
-
-           <div className="relative z-10 max-w-3xl mx-auto">
-              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">
-                 הגיע הזמן לבחור בעצמך 
-              </h2>
-              <p className="text-2xl text-white/90 mb-12 font-light tracking-wide">
-                 לא עוד התחלה חדשה שתיעלם אחרי שבוע,<br/> אלא תהליך שקט, אמיתי ויציב.
-              </p>
-
-              <div className="bg-white rounded-[40px] p-10 md:p-14 shadow-2xl relative">
-                 
-                 <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-white font-bold px-8 py-3 rounded-full shadow-lg text-lg flex items-center gap-2" style={{ background: `linear-gradient(135deg, ${theme.colors.accent}, #C59F2B)` }}>
-                    <Star size={18} className="fill-current animate-pulse" />
-                    קבלת גישה ללא עלות
-                 </div>
-
-                 {/* Bottom Form */}
-                 {!isSuccess ? (
-                   <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-6">
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <input 
-                          type="text" 
-                          name="fullName"
-                          value={formData.fullName}
-                          onChange={handleChange}
-                          placeholder="שם מלא"
-                          className="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400"
-                        />
-                        <input 
-                          type="tel" 
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          placeholder="מספר נייד"
-                          maxLength={10}
-                          className="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400"
-                        />
-                      </div>
-                      <input 
-                        type="email" 
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="דואר אלקטרוני"
-                        className="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400"
-                      />
-                      
-                      <button 
-                        type="submit" 
-                        disabled={isSubmitting}
-                        className="btn-shine w-full py-5 text-xl font-bold text-white rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex justify-center items-center gap-3 mt-2 relative overflow-hidden"
-                        style={{ background: `linear-gradient(135deg, ${theme.colors.accent}, #C59F2B)` }}
-                      >
-                        <span className="relative z-10">{isSubmitting ? 'שולח...' : 'אני רוצה צפייה מיידית בהדרכה'}</span>
-                        {!isSubmitting && <ChevronLeft strokeWidth={3} className="relative z-10" />}
-                      </button>
-                   </form>
-                 ) : (
-                    <div className="mt-8 p-6 bg-green-50 border border-green-200 rounded-2xl text-green-800 text-center animate-in zoom-in">
-                       <Check className="w-14 h-14 text-green-500 mx-auto mb-4" />
-                       <h3 className="font-bold text-2xl">תודה שנרשמת!</h3>
-                       <p className="text-lg">ההקלטה בדרך למייל שלך.</p>
+                <div class="space-y-6 relative z-10">
+                    <!-- Item 1 -->
+                    <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
+                        <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
+                            <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2 text-[#1B4D3E]">הסוף ל"הכל או כלום"</h3>
+                            <p class="text-lg text-gray-600 leading-relaxed font-light">איך להשתחרר מהגישה המעייפת ולצמוח בקצב שלך.</p>
+                        </div>
                     </div>
-                 )}
 
-                 <p className="text-sm text-gray-400 mt-8 flex justify-center gap-6 font-light">
-                    <span className="flex items-center gap-1"><Lock size={14} /> הגישה תישלח אלייך באופן מיידי למייל</span>
-                 </p>
-              </div>
-           </div>
+                    <!-- Item 2 -->
+                    <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
+                        <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
+                            <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2 text-[#1B4D3E]">בחירת ההרגל המדויק</h3>
+                            <p class="text-lg text-gray-600 leading-relaxed font-light">איך לבחור שינוי אחד שבאמת מתאים לחיים העמוסים שלך.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
+                        <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
+                            <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2 text-[#1B4D3E]">מנגנון ההתמדה</h3>
+                            <p class="text-lg text-gray-600 leading-relaxed font-light">הדרך הפשוטה לבנות משוב שבועי ששומר עלייך במסלול.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
+                        <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
+                            <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2 text-[#1B4D3E]">תוכנית מעשית</h3>
+                            <p class="text-lg text-gray-600 leading-relaxed font-light">צעדים שתוכלי ליישם כבר הערב, בלי לחץ ובלי דרמות.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        {/* Footer Area - Container for external script content */}
-        <div id="legal-footer-container" className="w-full pb-8 text-center text-sm opacity-70"></div>
+        <!-- WHO AM I -->
+        <div class="mb-32 max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                
+                <!-- Text -->
+                <div class="flex-1 order-2 md:order-1">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-8 relative inline-block text-[#1B4D3E]">
+                        נעים להכיר, אני רבקה
+                        <span class="absolute -bottom-3 right-0 w-full h-1.5 rounded-full opacity-20 bg-[#708090]"></span>
+                    </h2>
 
-      </div>
+                    <div class="space-y-6 text-xl leading-relaxed text-gray-700 font-light">
+                        <p>
+                            אני יודעת בדיוק איך זה מרגיש להתחיל תהליך עם כל הלב, ואז לאט־לאט לאבד את הקצב.
+                        </p>
+                        <p>
+                            כבר שנים אני מלווה נשים בתהליכים של ירידה במשקל ואורח חיים בריא, אבל האמת? גם אני הייתי שם. ניסיתי תפריטים, ניסיתי משמעת.
+                        </p>
+                        
+                        <div class="p-8 rounded-3xl bg-white border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.03)] border-r-4 transition-transform hover:scale-[1.02] border-[#708090]">
+                            <p class="text-xl font-medium text-[#1B4D3E]">
+                                עד שהבנתי שהשינוי נבנה מהרגל אחד בכל פעם.
+                            </p>
+                        </div>
+
+                        <p>
+                            בדיוק את זה אני מראה לך בהדרכה שלפנייך - איך לבנות הרגלים שיישארו איתך לכל החיים.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Image -->
+                <div class="flex-1 w-full order-1 md:order-2">
+                    <div class="bg-white rounded-[40px] h-[500px] w-full relative overflow-hidden shadow-[0_20px_50px_rgba(27,77,62,0.1)] border-[8px] border-white group">
+                        <img src="https://rivkaol.github.io/profile.jpg.jpg" alt="רבקה הולצברג" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM OFFER -->
+        <div class="mb-20 rounded-[40px] p-10 md:p-20 text-center relative overflow-hidden bg-[#708090]">
+            <!-- Blobs -->
+            <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                <div class="absolute top-10 right-10 w-60 h-60 rounded-full bg-white blur-[80px]"></div>
+                <div class="absolute bottom-10 left-10 w-80 h-80 rounded-full blur-[80px] bg-[#1B4D3E]"></div>
+            </div>
+
+            <div class="relative z-10 max-w-3xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-white">
+                    הגיע הזמן לבחור בעצמך 
+                </h2>
+                <p class="text-2xl text-white/90 mb-12 font-light tracking-wide">
+                    לא עוד התחלה חדשה שתיעלם אחרי שבוע,<br/> אלא תהליך שקט, אמיתי ויציב.
+                </p>
+
+                <div class="bg-white rounded-[40px] p-10 md:p-14 shadow-2xl relative">
+                    
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 text-white font-bold px-8 py-3 rounded-full shadow-lg text-lg flex items-center gap-2" style="background: linear-gradient(135deg, #D4AF37, #C59F2B);">
+                        <i data-lucide="star" class="fill-current animate-pulse w-5 h-5"></i>
+                        קבלת גישה ללא עלות
+                    </div>
+
+                    <!-- Bottom Form -->
+                    <form id="formBottom" class="flex flex-col gap-6 mt-6">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="text" name="fullName" placeholder="שם מלא" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required minlength="2">
+                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="05[0-9]{8}">
+                        </div>
+                        <input type="email" name="email" placeholder="דואר אלקטרוני" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required>
+                        
+                        <button type="submit" class="btn-shine w-full py-5 text-xl font-bold text-white rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex justify-center items-center gap-3 mt-2" style="background: linear-gradient(135deg, #D4AF37, #C59F2B);">
+                            <span class="relative z-10">אני רוצה צפייה מיידית בהדרכה</span>
+                            <i data-lucide="chevron-left" class="relative z-10 w-6 h-6 stroke-[3]"></i>
+                        </button>
+
+                        <div class="error-message hidden text-red-500 text-sm text-center font-medium mt-2 bg-red-50 py-2 rounded-lg">
+                            נא לתקן את השדות המסומנים
+                        </div>
+                    </form>
+
+                    <!-- Success Message -->
+                    <div id="successBottom" class="hidden mt-8 p-6 bg-green-50 border border-green-200 rounded-2xl text-green-800 text-center animate-in zoom-in">
+                        <i data-lucide="check" class="w-14 h-14 text-green-500 mx-auto mb-4"></i>
+                        <h3 class="font-bold text-2xl">תודה שנרשמת!</h3>
+                        <p class="text-lg">ההקלטה בדרך למייל שלך.</p>
+                    </div>
+
+                    <p class="text-sm text-gray-400 mt-8 flex justify-center gap-6 font-light">
+                        <span class="flex items-center gap-1"><i data-lucide="lock" class="w-4 h-4"></i> הגישה תישלח אלייך באופן מיידי למייל</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Container -->
+        <div id="legal-footer-container" class="w-full pb-8 text-center text-sm opacity-70"></div>
+
     </div>
-  );
-};
 
-export default LandingPage;
+    <!-- Logic Script -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Load Footer Script
+        const footerScript = document.createElement('script');
+        footerScript.src = "https://rivkaol.github.io/legal-footer.js";
+        document.getElementById('legal-footer-container').appendChild(footerScript);
+
+        // Form Handling Logic
+        function setupForm(formId, successId) {
+            const form = document.getElementById(formId);
+            const successMsg = document.getElementById(successId);
+            const errorMsg = form.querySelector('.error-message');
+            const btn = form.querySelector('button');
+            const originalBtnText = btn.innerHTML;
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Basic Validation
+                if (!form.checkValidity()) {
+                    errorMsg.classList.remove('hidden');
+                    return;
+                }
+                errorMsg.classList.add('hidden');
+
+                // Simulate Sending
+                btn.disabled = true;
+                btn.innerHTML = '<span class="relative z-10">שולח...</span>';
+
+                setTimeout(() => {
+                    form.classList.add('hidden');
+                    successMsg.classList.remove('hidden');
+                    lucide.createIcons(); // Refresh icons if needed
+                }, 1500);
+            });
+        }
+
+        setupForm('formTop', 'successTop');
+        setupForm('formBottom', 'successBottom');
+    </script>
+</body>
+</html>
