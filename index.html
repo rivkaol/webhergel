@@ -182,7 +182,7 @@
                             <i data-lucide="check" class="w-10 h-10 text-[#1B4D3E]"></i>
                         </div>
                         <h3 class="font-bold text-3xl mb-2">מיד עוברים להדרכה...</h3>
-                        <p class="text-xl opacity-80">אנא המתיני</p>
+                        <p class="text-xl opacity-80">תהני!</p>
                     </div>
                 </div>
 
@@ -203,7 +203,7 @@
                         כלים לשקט תעשייתי וסדר פנימי
                     </p>
                 </div>
-                <!-- List Items (Unchanged logic) -->
+                <!-- List Items -->
                 <div class="space-y-6 relative z-10">
                     <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
                         <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
@@ -382,12 +382,10 @@
                         // Success
                         form.classList.add('hidden');
                         successMsg.classList.remove('hidden');
-                        lucide.createIcons();
+                        lucide.createIcons(); // Refresh icons in success message
                         
-                        // REDIRECT TO VIDEO PAGE
-                        setTimeout(() => {
-                            window.location.href = 'web.html';
-                        }, 1500); 
+                        // REDIRECT IMMEDIATELY
+                        window.location.href = 'web.html';
 
                     } else {
                         throw new Error('Network response was not ok');
@@ -398,7 +396,7 @@
                     // Restore button
                     btn.disabled = false;
                     btn.innerHTML = originalBtnContent;
-                    lucide.createIcons();
+                    lucide.createIcons(); // Re-render icons in button
                 }
             });
         }
