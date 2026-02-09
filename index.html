@@ -46,14 +46,9 @@
             100% { left: 100%; opacity: 0; }
         }
 
-        @keyframes pulse-soft {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
         .animate-enter {
             animation: fadeInUp 0.8s ease-out forwards;
-            opacity: 0; /* Start hidden */
+            opacity: 0;
         }
         
         .delay-100 { animation-delay: 0.1s; }
@@ -114,8 +109,8 @@
                 <span>הדרכה מוקלטת לצפייה מיידית</span>
             </div>
 
-            <!-- Main Title -->
-            <h1 class="text-5xl md:text-7xl font-black leading-tight mb-8 drop-shadow-sm text-[#1B4D3E] animate-enter delay-200">
+            <!-- Main Title (Font Bold) -->
+            <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-8 drop-shadow-sm text-[#1B4D3E] animate-enter delay-200">
                 להכניס איזון אמיתי לחיים<br/>
                 <span class="relative inline-block px-2">
                     הרגל אחד בכל פעם
@@ -161,8 +156,7 @@
                         </div>
                         <div class="relative group">
                             <i data-lucide="phone" class="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors w-5 h-5"></i>
-                            <!-- Updated Pattern for International Numbers -->
-                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="^[+]?[0-9\s\-]{9,20}$" title="נא להזין מספר טלפון תקין (9-20 ספרות, ניתן לכלול + ומקפים)">
+                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="^[+]?[0-9\s\-]{9,20}$" title="נא להזין מספר טלפון תקין">
                         </div>
                     </div>
                     
@@ -181,14 +175,14 @@
                     </div>
                 </form>
 
-                <!-- Success Message (Hidden by default) -->
+                <!-- Success Message -->
                 <div id="successTop" class="hidden mt-6 p-10 bg-[#F0FDF4] border border-[#DCFCE7] rounded-3xl text-green-800 text-center animate-in fade-in zoom-in">
                     <div class="flex flex-col items-center">
                         <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
                             <i data-lucide="check" class="w-10 h-10 text-[#1B4D3E]"></i>
                         </div>
-                        <h3 class="font-bold text-3xl mb-2">ההקלטה בדרך אלייך!</h3>
-                        <p class="text-xl opacity-80">בדקי את תיבת המייל שלך בדקות הקרובות.</p>
+                        <h3 class="font-bold text-3xl mb-2">מיד עוברים להדרכה...</h3>
+                        <p class="text-xl opacity-80">אנא המתיני</p>
                     </div>
                 </div>
 
@@ -201,7 +195,6 @@
         <!-- WHAT YOU WILL LEARN -->
         <div class="max-w-4xl mx-auto mb-24">
             <div class="rounded-[40px] p-10 md:p-16 relative bg-white/70 backdrop-blur-sm border border-white/50 shadow-[0_4px_30px_rgba(0,0,0,0.02)]">
-                
                 <div class="text-center mb-12 relative z-10">
                     <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#1B4D3E]">
                         מה תלמדי בהדרכה?
@@ -210,9 +203,8 @@
                         כלים לשקט תעשייתי וסדר פנימי
                     </p>
                 </div>
-
+                <!-- List Items (Unchanged logic) -->
                 <div class="space-y-6 relative z-10">
-                    <!-- Item 1 -->
                     <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
                         <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
                             <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
@@ -222,8 +214,6 @@
                             <p class="text-lg text-gray-600 leading-relaxed font-light">איך להשתחרר מהגישה המעייפת ולצמוח בקצב שלך.</p>
                         </div>
                     </div>
-
-                    <!-- Item 2 -->
                     <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
                         <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
                             <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
@@ -233,8 +223,6 @@
                             <p class="text-lg text-gray-600 leading-relaxed font-light">איך לבחור שינוי אחד שבאמת מתאים לחיים העמוסים שלך.</p>
                         </div>
                     </div>
-
-                    <!-- Item 3 -->
                     <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
                         <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
                             <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
@@ -244,8 +232,6 @@
                             <p class="text-lg text-gray-600 leading-relaxed font-light">הדרך הפשוטה לבנות משוב שבועי ששומר עלייך במסלול.</p>
                         </div>
                     </div>
-
-                    <!-- Item 4 -->
                     <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
                         <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
                             <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
@@ -262,34 +248,21 @@
         <!-- WHO AM I -->
         <div class="mb-32 max-w-5xl mx-auto">
             <div class="flex flex-col md:flex-row items-center gap-16">
-                
                 <!-- Text -->
                 <div class="flex-1 order-2 md:order-1">
                     <h2 class="text-4xl md:text-5xl font-bold mb-8 relative inline-block text-[#1B4D3E]">
                         נעים להכיר, אני רבקה
                         <span class="absolute -bottom-3 right-0 w-full h-1.5 rounded-full opacity-20 bg-[#708090]"></span>
                     </h2>
-
                     <div class="space-y-6 text-xl leading-relaxed text-gray-700 font-light">
-                        <p>
-                            אני יודעת בדיוק איך זה מרגיש להתחיל תהליך עם כל הלב, ואז לאט־לאט לאבד את הקצב.
-                        </p>
-                        <p>
-                            כבר שנים אני מלווה נשים בתהליכים של ירידה במשקל ואורח חיים בריא, אבל האמת? גם אני הייתי שם. ניסיתי תפריטים, ניסיתי משמעת.
-                        </p>
-                        
+                        <p>אני יודעת בדיוק איך זה מרגיש להתחיל תהליך עם כל הלב, ואז לאט־לאט לאבד את הקצב.</p>
+                        <p>כבר שנים אני מלווה נשים בתהליכים של ירידה במשקל ואורח חיים בריא, אבל האמת? גם אני הייתי שם. ניסיתי תפריטים, ניסיתי משמעת.</p>
                         <div class="p-8 rounded-3xl bg-white border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.03)] border-r-4 transition-transform hover:scale-[1.02] border-[#708090]">
-                            <p class="text-xl font-medium text-[#1B4D3E]">
-                                עד שהבנתי שהשינוי נבנה מהרגל אחד בכל פעם.
-                            </p>
+                            <p class="text-xl font-medium text-[#1B4D3E]">עד שהבנתי שהשינוי נבנה מהרגל אחד בכל פעם.</p>
                         </div>
-
-                        <p>
-                            בדיוק את זה אני מראה לך בהדרכה שלפנייך - איך לבנות הרגלים שיישארו איתך לכל החיים.
-                        </p>
+                        <p>בדיוק את זה אני מראה לך בהדרכה שלפנייך - איך לבנות הרגלים שיישארו איתך לכל החיים.</p>
                     </div>
                 </div>
-
                 <!-- Image -->
                 <div class="flex-1 w-full order-1 md:order-2">
                     <div class="bg-white rounded-[40px] h-[500px] w-full relative overflow-hidden shadow-[0_20px_50px_rgba(27,77,62,0.1)] border-[8px] border-white group">
@@ -326,8 +299,7 @@
                     <form id="formBottom" class="flex flex-col gap-6 mt-6">
                         <div class="grid md:grid-cols-2 gap-4">
                             <input type="text" name="fullName" placeholder="שם מלא" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required minlength="2">
-                            <!-- Updated Pattern for International Numbers -->
-                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="^[+]?[0-9\s\-]{9,20}$" title="נא להזין מספר טלפון תקין (9-20 ספרות, ניתן לכלול + ומקפים)">
+                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="^[+]?[0-9\s\-]{9,20}$" title="נא להזין מספר טלפון תקין">
                         </div>
                         <input type="email" name="email" placeholder="דואר אלקטרוני" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required>
                         
@@ -344,8 +316,8 @@
                     <!-- Success Message -->
                     <div id="successBottom" class="hidden mt-8 p-6 bg-green-50 border border-green-200 rounded-2xl text-green-800 text-center animate-in zoom-in">
                         <i data-lucide="check" class="w-14 h-14 text-green-500 mx-auto mb-4"></i>
-                        <h3 class="font-bold text-2xl">תודה שנרשמת!</h3>
-                        <p class="text-lg">ההקלטה בדרך למייל שלך.</p>
+                        <h3 class="font-bold text-2xl">מיד עוברים להדרכה...</h3>
+                        <p class="text-lg">אנא המתיני.</p>
                     </div>
 
                     <p class="text-sm text-gray-400 mt-8 flex justify-center gap-6 font-light">
@@ -376,7 +348,6 @@
             const successMsg = document.getElementById(successId);
             const errorMsg = form.querySelector('.error-message');
             const btn = form.querySelector('button');
-            // Store original text without the icon HTML for simplicity when restoring
             const originalBtnContent = btn.innerHTML;
 
             form.addEventListener('submit', async (e) => {
@@ -411,7 +382,13 @@
                         // Success
                         form.classList.add('hidden');
                         successMsg.classList.remove('hidden');
-                        lucide.createIcons(); // Refresh icons in success message
+                        lucide.createIcons();
+                        
+                        // REDIRECT TO VIDEO PAGE
+                        setTimeout(() => {
+                            window.location.href = 'web.html';
+                        }, 1500); 
+
                     } else {
                         throw new Error('Network response was not ok');
                     }
@@ -421,7 +398,7 @@
                     // Restore button
                     btn.disabled = false;
                     btn.innerHTML = originalBtnContent;
-                    lucide.createIcons(); // Re-render icons in button
+                    lucide.createIcons();
                 }
             });
         }
