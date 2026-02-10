@@ -5,379 +5,508 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>רבקה הולצברג - הדרכה מוקלטת</title>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
     <!-- Google Fonts: Rubik -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* Force Rubik Font */
-        body, input, button {
-            font-family: 'Rubik', sans-serif;
-        }
-
-        /* Custom Colors */
+        /* --- משתנים וצבעים (CSS Variables) --- */
         :root {
-            --primary: #1B4D3E;
-            --accent: #D4AF37;
-            --slate: #708090;
-            --cream: #FDFBF7;
+            --primary-green: #1B4D3E;       /* ירוק יער עמוק */
+            --mauve: #8E7B96;               /* לבנדר מעושן - הצבע המרומם */
+            --mauve-light: #F4EFF6;         /* רקע לבנדר בהיר מאוד */
+            --accent-gold: #D4AF37;         /* זהב בסיס */
+            --bg-cream: #FDFBF7;            /* שמנת */
+            --text-dark: #333333;
+            
+            /* הגדרות צללית וכפתורים כמו בהשראה */
+            --shadow-card: 0 15px 40px rgba(142, 123, 150, 0.12);
+            --radius-btn: 50px;
         }
 
-        /* Animations */
+        /* --- איפוס והגדרות בסיס --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            font-size: 18px; /* גופן בסיס נעים */
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- טיפוגרפיה --- */
+        h1, h2, h3 {
+            color: var(--primary-green);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 { 
+            font-size: 3.5rem; 
+            letter-spacing: -1.5px; 
+        }
+        
+        h2 { 
+            font-size: 2.5rem; 
+            margin-bottom: 1.5rem; 
+        }
+        
+        p { 
+            margin-bottom: 1.5rem; 
+            color: #555;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        strong { color: var(--mauve); }
+
+        /* --- אנימציות --- */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes shine {
-            0% { left: -100%; opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { left: 100%; opacity: 0; }
-        }
-
-        .animate-enter {
+        .animate {
             animation: fadeInUp 0.8s ease-out forwards;
             opacity: 0;
         }
-        
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
-        .delay-400 { animation-delay: 0.4s; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.3s; }
+        .delay-3 { animation-delay: 0.5s; }
 
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
+        /* --- רכיבי עיצוב --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
         }
 
-        .btn-shine {
+        /* כפתור זהב מבריק (לא עכור) */
+        .btn-gold {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem; /* גודל כפתור מתוקן */
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            border: none;
+            border-radius: var(--radius-btn);
+            cursor: pointer;
+            /* גרדיאנט מבריק לזהב */
+            background: linear-gradient(135deg, #D4AF37 0%, #F3CD58 50%, #C59F2B 100%);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            text-decoration: none;
             position: relative;
             overflow: hidden;
         }
 
-        .btn-shine::after {
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        /* אפקט ברק על הכפתור */
+        .btn-gold::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
             transform: skewX(-25deg);
             animation: shine 3s infinite;
         }
 
-        /* Background Pattern */
-        .bg-pattern {
-            background-image: radial-gradient(#708090 0.5px, transparent 0.5px), radial-gradient(#1B4D3E 0.5px, #FDFBF7 0.5px);
-            background-size: 24px 24px;
-            opacity: 0.03;
+        @keyframes shine {
+            0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; }
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(180deg, var(--mauve-light) 0%, #ffffff 100%);
+            padding: 60px 0 60px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* תגית עליונה */
+        .top-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: white;
+            color: var(--mauve);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(142, 123, 150, 0.1);
+            border: 1px solid rgba(142, 123, 150, 0.2);
+        }
+
+        /* תיבת הטופס - גרסה מהודקת וקומפקטית */
+        .form-box-wrapper {
+            background: white;
+            max-width: 500px; /* צמצום רוחב */
+            margin: 40px auto 0;
+            padding: 40px; /* פחות ריפוד */
+            border-radius: 30px;
+            /* המסגרת העבה בצבע המותג הרך */
+            border: 5px solid var(--mauve-light); 
+            box-shadow: var(--shadow-card);
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-title {
+            font-size: 1.5rem; /* כותרת טופס עדינה יותר */
+            color: var(--primary-green);
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        
+        .form-subtitle {
+            font-size: 1.1rem;
+            color: var(--mauve);
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* צמצום מרווחים בין שדות */
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--primary-green);
+            font-size: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px; /* שדה קומפקטי יותר */
+            border: 2px solid #EEE;
+            border-radius: 12px;
+            font-family: 'Rubik', sans-serif;
+            font-size: 1rem; /* טקסט בגודל סטנדרטי */
+            background-color: #FAFAFA;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        /* --- Content Sections --- */
+        .section-cards {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--mauve-light);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            background-color: var(--mauve-light);
+            color: var(--mauve);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        /* --- About Section --- */
+        .about-section {
+            padding: 100px 0;
+            background-color: var(--bg-cream);
+        }
+
+        .about-grid {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .about-img-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .about-img {
+            width: 100%;
+            max-width: 450px;
+            border-radius: 40px;
+            border: 8px solid white;
+            box-shadow: var(--shadow-card);
+        }
+
+        .about-content {
+            flex: 1.2;
+        }
+
+        .about-quote-box {
+            border-right: 5px solid var(--mauve);
+            background: white;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px 0 0 10px;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--primary-green);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            .hero { padding-top: 40px; }
+            .form-box-wrapper { padding: 30px 20px; margin-top: 30px; }
+            .about-grid { flex-direction: column; text-align: center; }
+            .about-quote-box { border-right: none; border-top: 5px solid var(--mauve); border-radius: 0 0 10px 10px; }
+            .form-title { font-size: 1.4rem; }
         }
     </style>
 </head>
-<body class="min-h-screen text-[#333333] bg-[#FDFBF7] relative overflow-x-hidden">
+<body>
 
-    <!-- Background Pattern -->
-    <div class="fixed inset-0 bg-pattern pointer-events-none z-0"></div>
-
-    <!-- Main Content -->
-    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-10">
-        
-        <!-- Header -->
-        <header class="flex justify-center mb-12 animate-enter">
-            <div class="h-24 md:h-32 flex items-center justify-center hover:scale-105 transition-transform duration-500">
-                <img src="https://rivkaol.github.io/logo.jpg.png" alt="רבקה הולצברג" class="h-full object-contain drop-shadow-sm">
-            </div>
-        </header>
-
-        <!-- HERO SECTION -->
-        <div class="text-center mb-20">
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
             
-            <!-- Top Tag -->
-            <div class="inline-flex items-center gap-2 px-6 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.03)] text-lg font-medium mb-8 border border-slate-100 text-[#708090] animate-enter delay-100">
-                <i data-lucide="play-circle" class="w-5 h-5 text-[#708090] fill-[#708090] fill-opacity-20"></i>
-                <span>הדרכה מוקלטת לצפייה מיידית</span>
+            <!-- Top Badge -->
+            <div class="top-badge animate delay-1">
+                <i data-lucide="play-circle" style="width: 18px;"></i>
+                הדרכה מוקלטת לצפייה מיידית
             </div>
 
-            <!-- Main Title (Font Bold) -->
-            <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-8 drop-shadow-sm text-[#1B4D3E] animate-enter delay-200">
-                להכניס איזון אמיתי לחיים<br/>
-                <span class="relative inline-block px-2">
-                    הרגל אחד בכל פעם
-                    <span class="absolute bottom-3 right-0 w-full h-3 -z-10 opacity-10 rounded-full bg-[#708090]"></span>
-                </span>
+            <!-- Titles -->
+            <h1 class="animate delay-2">
+                להכניס איזון אמיתי לחיים<br>
+                <span style="font-weight: 400; color: var(--mauve);">הרגל אחד בכל פעם</span>
             </h1>
 
-            <!-- Sub-Head -->
-            <div class="max-w-4xl mx-auto mb-10 space-y-4 animate-enter delay-300">
-                <h2 class="text-2xl md:text-3xl font-light leading-relaxed text-[#333333]">
-                    מרגישה שכל שינוי מתחיל בהתלהבות... ואז לאט לאט מתמסמס?<br/>
-                    נמאס לך מהבטחות של "מהיום אני מתחילה מחדש" שמחזיקות רק ימים?
-                </h2>
-                <p class="text-2xl font-medium pt-2 text-[#708090]">
-                    הגיע הזמן להפסיק להישען על כוח רצון, ולעבור להתמדה חכמה.
-                </p>
-            </div>
-            
-            <!-- Offer Text -->
-            <div class="max-w-3xl mx-auto mb-16 animate-enter delay-400">
-                <div class="text-xl md:text-2xl leading-relaxed text-gray-700 flex flex-col items-center gap-4">
-                    <span>הצטרפי להדרכה מיוחדת (ללא עלות) שתגלי בה דרך אחרת.</span>
-                    <div class="mt-1 font-bold text-[#1B4D3E] bg-white border border-[#EAF2EF] px-6 py-2 rounded-full inline-flex items-center gap-2 transform hover:scale-105 transition-all duration-300 shadow-sm cursor-default">
-                        <i data-lucide="play-circle" class="w-5 h-5 fill-current text-[#1B4D3E]"></i>
-                        זמינה עבורך לצפייה מיידית עכשיו
-                    </div>
+            <p class="animate delay-3" style="font-size: 1.2rem;">
+                מרגישה שכל שינוי מתחיל בהתלהבות ואז מתמסמס?<br>
+                הגיע הזמן להפסיק להישען על כוח רצון ולעבור להתמדה חכמה.
+            </p>
+
+            <!-- FORM SECTION (IMMEDIATELY AFTER TITLE) -->
+            <div class="form-box-wrapper animate delay-3">
+                <div class="form-header">
+                    <h3 class="form-title">הצטרפי להדרכה מיוחדת (ללא עלות)</h3>
+                    <p class="form-subtitle">שתגלי בה דרך אחרת לחיים מאוזנים</p>
                 </div>
-            </div>
 
-            <!-- *** HERO FORM SECTION *** -->
-            <div class="bg-white rounded-[40px] p-8 md:p-12 shadow-[0_30px_60px_rgba(27,77,62,0.06)] border border-slate-50 relative max-w-2xl mx-auto mb-20 transform hover:-translate-y-1 transition-all duration-500 animate-enter delay-300">
-                
-                <h3 class="text-3xl font-bold text-center mb-8 mt-2 text-[#1B4D3E]">
-                    לקבלת גישה מיידית להדרכה
-                </h3>
-
-                <!-- Top Form -->
-                <form id="formTop" class="flex flex-col gap-5">
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div class="relative group">
-                            <i data-lucide="user" class="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors w-5 h-5"></i>
-                            <input type="text" name="fullName" placeholder="שם מלא" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required minlength="2">
-                        </div>
-                        <div class="relative group">
-                            <i data-lucide="phone" class="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors w-5 h-5"></i>
-                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="^[+]?[0-9\s\-]{9,20}$" title="נא להזין מספר טלפון תקין">
-                        </div>
+                <form id="registrationForm" novalidate>
+                    <div class="form-group">
+                        <label>שם מלא</label>
+                        <input type="text" name="fullName" class="form-input" placeholder="" required minlength="2">
+                        <div class="error-message">אנא הזינו שם מלא (לפחות 2 תווים)</div>
                     </div>
                     
-                    <div class="relative group">
-                        <i data-lucide="mail" class="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors w-5 h-5"></i>
-                        <input type="email" name="email" placeholder="דואר אלקטרוני" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required>
+                    <div class="form-group">
+                        <label>טלפון נייד</label>
+                        <input type="tel" name="phone" class="form-input" placeholder="" required pattern="^[+]?[0-9\s\-]{9,20}$">
+                        <div class="error-message">אנא הזינו מספר טלפון תקין</div>
                     </div>
 
-                    <button type="submit" class="btn-shine w-full py-5 text-xl font-bold text-white rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex justify-center items-center gap-3 mt-4" style="background: linear-gradient(135deg, #D4AF37, #C59F2B);">
-                        <span class="relative z-10">אני רוצה צפייה מיידית בהדרכה</span>
-                        <i data-lucide="chevron-left" class="relative z-10 w-6 h-6 stroke-[3]"></i>
+                    <div class="form-group">
+                        <label>כתובת מייל</label>
+                        <input type="email" name="email" class="form-input" placeholder="" required>
+                        <div class="error-message">אנא הזינו כתובת אימייל תקינה</div>
+                    </div>
+
+                    <button type="submit" class="btn-gold" style="margin-top: 10px;">
+                        אני רוצה צפייה מיידית בהדרכה
                     </button>
                     
-                    <div class="error-message hidden text-red-500 text-sm text-center font-medium mt-2 bg-red-50 py-2 rounded-lg">
-                        נא לתקן את השדות המסומנים
-                    </div>
+                    <p style="font-size: 0.9rem; margin-top: 15px; opacity: 0.8; margin-bottom: 0;">
+                        <i data-lucide="lock" style="width: 14px; display:inline; vertical-align:middle;"></i> פרטים מאובטחים
+                    </p>
                 </form>
-
-                <p class="text-sm mt-8 flex justify-center items-center gap-6 text-gray-400 font-light">
-                    <span class="flex items-center gap-2"><i data-lucide="lock" class="w-4 h-4"></i> הגישה תישלח אלייך באופן מיידי למייל</span>
-                </p>
             </div>
-        </div>
 
-        <!-- WHAT YOU WILL LEARN -->
-        <div class="max-w-4xl mx-auto mb-24">
-            <div class="rounded-[40px] p-10 md:p-16 relative bg-white/70 backdrop-blur-sm border border-white/50 shadow-[0_4px_30px_rgba(0,0,0,0.02)]">
-                <div class="text-center mb-12 relative z-10">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#1B4D3E]">
-                        מה תלמדי בהדרכה?
-                    </h2>
-                    <p class="text-xl opacity-60 font-light tracking-wide text-[#708090]">
-                        כלים לשקט תעשייתי וסדר פנימי
-                    </p>
+        </div>
+    </header>
+
+    <!-- What You Will Learn -->
+    <section class="section-cards">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2>מה תלמדי בהדרכה?</h2>
+                <p style="font-size: 1.3rem; color: var(--mauve);">כלים לשקט תעשייתי וסדר פנימי</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="feature-card">
+                    <div class="card-icon"><i data-lucide="zap-off" style="width: 32px; height: 32px;"></i></div>
+                    <h3>הסוף ל"הכל או כלום"</h3>
+                    <p>איך להשתחרר מהגישה המעייפת ולצמוח בקצב שלך, בלי ליפול לתהומות של ייאוש.</p>
                 </div>
-                <!-- List Items -->
-                <div class="space-y-6 relative z-10">
-                    <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
-                        <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
-                            <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-2 text-[#1B4D3E]">הסוף ל"הכל או כלום"</h3>
-                            <p class="text-lg text-gray-600 leading-relaxed font-light">איך להשתחרר מהגישה המעייפת ולצמוח בקצב שלך.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
-                        <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
-                            <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-2 text-[#1B4D3E]">בחירת ההרגל המדויק</h3>
-                            <p class="text-lg text-gray-600 leading-relaxed font-light">איך לבחור שינוי אחד שבאמת מתאים לחיים העמוסים שלך.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
-                        <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
-                            <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-2 text-[#1B4D3E]">מנגנון ההתמדה</h3>
-                            <p class="text-lg text-gray-600 leading-relaxed font-light">הדרך הפשוטה לבנות משוב שבועי ששומר עלייך במסלול.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-6 bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border border-slate-50/50 transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] group">
-                        <div class="flex-shrink-0 mt-1 transition-transform group-hover:scale-110 bg-[#F8FAFC] p-3 rounded-xl">
-                            <i data-lucide="check" class="w-6 h-6 text-[#708090] stroke-[2.5]"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-2 text-[#1B4D3E]">תוכנית מעשית</h3>
-                            <p class="text-lg text-gray-600 leading-relaxed font-light">צעדים שתוכלי ליישם כבר הערב, בלי לחץ ובלי דרמות.</p>
-                        </div>
-                    </div>
+                <div class="feature-card">
+                    <div class="card-icon"><i data-lucide="target" style="width: 32px; height: 32px;"></i></div>
+                    <h3>בחירת ההרגל המדויק</h3>
+                    <p>איך לבחור שינוי אחד שבאמת מתאים לחיים העמוסים שלך ולא דורש משאבים שאין לך.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="card-icon"><i data-lucide="repeat" style="width: 32px; height: 32px;"></i></div>
+                    <h3>מנגנון ההתמדה</h3>
+                    <p>הדרך הפשוטה לבנות משוב שבועי ששומר עלייך במסלול ונותן מוטיבציה להמשיך.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="card-icon"><i data-lucide="check-circle" style="width: 32px; height: 32px;"></i></div>
+                    <h3>תוכנית מעשית</h3>
+                    <p>צעדים קונקרטיים שתוכלי ליישם כבר הערב, בלי לחץ ובלי דרמות מיותרות.</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- WHO AM I -->
-        <div class="mb-32 max-w-5xl mx-auto">
-            <div class="flex flex-col md:flex-row items-center gap-16">
-                <!-- Text -->
-                <div class="flex-1 order-2 md:order-1">
-                    <h2 class="text-4xl md:text-5xl font-bold mb-8 relative inline-block text-[#1B4D3E]">
-                        נעים להכיר, אני רבקה
-                        <span class="absolute -bottom-3 right-0 w-full h-1.5 rounded-full opacity-20 bg-[#708090]"></span>
-                    </h2>
-                    <div class="space-y-6 text-xl leading-relaxed text-gray-700 font-light">
-                        <p>אני יודעת בדיוק איך זה מרגיש להתחיל תהליך עם כל הלב, ואז לאט־לאט לאבד את הקצב.</p>
-                        <p>כבר שנים אני מלווה נשים בתהליכים של ירידה במשקל ואורח חיים בריא, אבל האמת? גם אני הייתי שם. ניסיתי תפריטים, ניסיתי משמעת.</p>
-                        <div class="p-8 rounded-3xl bg-white border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.03)] border-r-4 transition-transform hover:scale-[1.02] border-[#708090]">
-                            <p class="text-xl font-medium text-[#1B4D3E]">עד שהבנתי שהשינוי נבנה מהרגל אחד בכל פעם.</p>
-                        </div>
-                        <p>בדיוק את זה אני מראה לך בהדרכה שלפנייך - איך לבנות הרגלים שיישארו איתך לכל החיים.</p>
-                    </div>
-                </div>
-                <!-- Image -->
-                <div class="flex-1 w-full order-1 md:order-2">
-                    <div class="bg-white rounded-[40px] h-[500px] w-full relative overflow-hidden shadow-[0_20px_50px_rgba(27,77,62,0.1)] border-[8px] border-white group">
-                        <img src="https://rivkaol.github.io/profile.jpg.jpg" alt="רבקה הולצברג" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- BOTTOM OFFER -->
-        <div class="mb-20 rounded-[40px] p-10 md:p-20 text-center relative overflow-hidden bg-[#708090]">
-            <!-- Blobs -->
-            <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                <div class="absolute top-10 right-10 w-60 h-60 rounded-full bg-white blur-[80px]"></div>
-                <div class="absolute bottom-10 left-10 w-80 h-80 rounded-full blur-[80px] bg-[#1B4D3E]"></div>
-            </div>
-
-            <div class="relative z-10 max-w-3xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-white">
-                    הגיע הזמן לבחור בעצמך 
-                </h2>
-                <p class="text-2xl text-white/90 mb-12 font-light tracking-wide">
-                    לא עוד התחלה חדשה שתיעלם אחרי שבוע,<br/> אלא תהליך שקט, אמיתי ויציב.
-                </p>
-
-                <div class="bg-white rounded-[40px] p-10 md:p-14 shadow-2xl relative">
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <h2 style="font-size: 3rem; margin-bottom: 20px;">נעים להכיר,<br><span style="color: var(--mauve);">אני רבקה הולצברג</span></h2>
                     
-                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 text-white font-bold px-8 py-3 rounded-full shadow-lg text-lg flex items-center gap-2" style="background: linear-gradient(135deg, #D4AF37, #C59F2B);">
-                        <i data-lucide="star" class="fill-current animate-pulse w-5 h-5"></i>
-                        קבלת גישה ללא עלות
+                    <p style="font-size: 1.2rem;">
+                        אני יודעת בדיוק איך זה מרגיש להתחיל תהליך עם כל הלב, ואז לאט־לאט לאבד את הקצב.
+                        כבר שנים אני מלווה נשים בתהליכים של ירידה במשקל ואורח חיים בריא.
+                    </p>
+                    
+                    <div class="about-quote-box">
+                        "גם אני בעצמי הייתי שם - ניסיתי תפריטים, ניסיתי משמעת... עד שהבנתי שהשינוי האמיתי לא קורה בבת אחת."
                     </div>
 
-                    <!-- Bottom Form -->
-                    <form id="formBottom" class="flex flex-col gap-6 mt-6">
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <input type="text" name="fullName" placeholder="שם מלא" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required minlength="2">
-                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="^[+]?[0-9\s\-]{9,20}$" title="נא להזין מספר טלפון תקין">
-                        </div>
-                        <input type="email" name="email" placeholder="דואר אלקטרוני" class="w-full p-4 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required>
-                        
-                        <button type="submit" class="btn-shine w-full py-5 text-xl font-bold text-white rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex justify-center items-center gap-3 mt-2" style="background: linear-gradient(135deg, #D4AF37, #C59F2B);">
-                            <span class="relative z-10">אני רוצה צפייה מיידית בהדרכה</span>
-                            <i data-lucide="chevron-left" class="relative z-10 w-6 h-6 stroke-[3]"></i>
-                        </button>
-
-                        <div class="error-message hidden text-red-500 text-sm text-center font-medium mt-2 bg-red-50 py-2 rounded-lg">
-                            נא לתקן את השדות המסומנים
-                        </div>
-                    </form>
-
-                    <p class="text-sm text-gray-400 mt-8 flex justify-center gap-6 font-light">
-                        <span class="flex items-center gap-1"><i data-lucide="lock" class="w-4 h-4"></i> הגישה תישלח אלייך באופן מיידי למייל</span>
+                    <p style="font-size: 1.2rem;">
+                        הבנתי שהשינוי נבנה מהרגל אחד בכל פעם. בהדרכה הזו אני חושפת את השיטה שעזרה לי ולמאות נשים אחרות למצוא איזון אמיתי.
                     </p>
+                </div>
+                
+                <div class="about-img-box">
+                    <img src="profile.jpg.jpg" alt="רבקה הולצברג" class="about-img">
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Footer Container -->
-        <div id="legal-footer-container" class="w-full pb-8 text-center text-sm opacity-70">
-            <script src="https://rivkaol.github.io/legal-footer.js"></script>
-        </div>
-
+    <!-- Footer -->
+    <div id="legal-footer-container" style="text-align: center; padding: 40px 0; opacity: 0.6; font-size: 0.9rem;">
+        <script src="https://rivkaol.github.io/legal-footer.js"></script>
     </div>
 
-    <!-- Logic Script -->
+    <!-- Scripts -->
     <script>
-        // Initialize Icons
         lucide.createIcons();
 
-        // Webhook URL
         const WEBHOOK_URL = 'https://hook.eu2.make.com/on92hq4nkddrpn5b2ugp5lt7wihioyrg';
 
-        // Form Handling Logic
-        function setupForm(formId) {
-            const form = document.getElementById(formId);
-            const errorMsg = form.querySelector('.error-message');
-            const btn = form.querySelector('button');
-            const originalBtnContent = btn.innerHTML;
+        const form = document.getElementById('registrationForm');
+        const btn = form.querySelector('button');
+        const originalBtnContent = btn.innerHTML;
 
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                // Basic HTML5 Validation
-                if (!form.checkValidity()) {
-                    errorMsg.classList.remove('hidden');
-                    return;
-                }
-                errorMsg.classList.add('hidden');
-
-                // UI Loading State
-                btn.disabled = true;
-                btn.innerHTML = '<span class="relative z-10">שולח...</span>';
-
-                // Collect Data
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
-
-                try {
-                    // Send to Make Webhook
-                    const response = await fetch(WEBHOOK_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data),
-                    });
-
-                    if (response.ok) {
-                        // REDIRECT IMMEDIATELY
-                        window.location.href = 'web.html';
-                    } else {
-                        throw new Error('Network response was not ok');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // בדיקת ולידציה בסיסית של HTML5
+            if (!form.checkValidity()) {
+                // מציג הודעות שגיאה
+                const inputs = form.querySelectorAll('input');
+                inputs.forEach(input => {
+                    if (!input.validity.valid) {
+                        const errorMsg = input.parentNode.querySelector('.error-message');
+                        if (errorMsg) errorMsg.style.display = 'block';
                     }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('אירעה שגיאה בשליחה. אנא נסו שנית.');
-                    // Restore button
-                    btn.disabled = false;
-                    btn.innerHTML = originalBtnContent;
-                    lucide.createIcons(); // Re-render icons in button
-                }
-            });
-        }
+                });
+                return;
+            }
 
-        setupForm('formTop');
-        setupForm('formBottom');
+            // איפוס הודעות שגיאה
+            document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+
+            // מצב טעינה
+            btn.disabled = true;
+            btn.innerHTML = 'שולח...';
+
+            // איסוף נתונים
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                // שליחה ל-Webhook
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    // הפניה מיידית
+                    window.location.href = 'web.html';
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('אירעה שגיאה בשליחה. אנא נסו שנית.');
+                btn.disabled = false;
+                btn.innerHTML = originalBtnContent;
+                lucide.createIcons();
+            }
+        });
+
+        // הסתרת הודעות שגיאה בעת הקלדה
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                const errorMsg = input.parentNode.querySelector('.error-message');
+                if (errorMsg) errorMsg.style.display = 'none';
+            });
+        });
     </script>
 </body>
 </html>
