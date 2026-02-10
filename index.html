@@ -3,110 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>רבקה הולצברג - הדרכה מוקלטת</title>
+    <title>צפייה בהדרכה | רבקה הולצברג</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts: Rubik -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* --- משתנים וצבעים (CSS Variables) --- */
+        /* Force Rubik Font */
+        body, input, button {
+            font-family: 'Rubik', sans-serif;
+        }
+
+        /* Custom Colors - Matching Index Page Exactly */
         :root {
-            --primary-green: #1B4D3E;       /* ירוק יער עמוק */
-            --mauve: #8E7B96;               /* לבנדר מעושן - הצבע המרומם */
-            --mauve-light: #F4EFF6;         /* רקע לבנדר בהיר מאוד */
-            --accent-gold: #D4AF37;         /* זהב בסיס */
-            --bg-cream: #FDFBF7;            /* שמנת */
-            --text-dark: #333333;
+            --primary: #1B4D3E; /* Forest Green */
+            --mauve: #8E7B96;   /* Dusty Lavender */
+            --mauve-light: #F4EFF6; /* Light Lavender Background */
+            --accent: #D4AF37;  /* Shiny Gold */
+            --cream: #FDFBF7;   /* Warm Cream */
             
-            /* הגדרות צללית וכפתורים כמו בהשראה */
+            /* Shadows & Radius */
             --shadow-card: 0 15px 40px rgba(142, 123, 150, 0.12);
             --radius-btn: 50px;
         }
 
-        /* --- איפוס והגדרות בסיס --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Rubik', sans-serif;
-            background-color: var(--bg-cream);
-            color: var(--text-dark);
-            font-size: 18px; /* גופן בסיס נעים */
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* --- טיפוגרפיה --- */
-        h1, h2, h3 {
-            color: var(--primary-green);
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-        }
-
-        h1 { 
-            font-size: 3.5rem; 
-            letter-spacing: -1.5px; 
-        }
-        
-        h2 { 
-            font-size: 2.5rem; 
-            margin-bottom: 1.5rem; 
-        }
-        
-        p { 
-            margin-bottom: 1.5rem; 
-            color: #555;
-            max-width: 750px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        strong { color: var(--mauve); }
-
-        /* --- אנימציות --- */
+        /* Animations */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .animate {
+        @keyframes shine {
+            0% { left: -100%; opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { left: 100%; opacity: 0; }
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); opacity: 0.05; }
+            50% { transform: scale(1.05); opacity: 0.08; }
+        }
+
+        .animate-enter {
             animation: fadeInUp 0.8s ease-out forwards;
             opacity: 0;
         }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.3s; }
-        .delay-3 { animation-delay: 0.5s; }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
 
-        /* --- רכיבי עיצוב --- */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-        }
-
-        /* כפתור זהב מבריק (לא עכור) */
+        /* The Shiny Gold Button (Same as Index) */
         .btn-gold {
             display: inline-block;
             width: 100%;
-            padding: 1rem; /* גודל כפתור מתוקן */
+            padding: 1rem;
             font-size: 1.3rem;
             font-weight: 700;
             color: white;
             border: none;
             border-radius: var(--radius-btn);
             cursor: pointer;
-            /* גרדיאנט מבריק לזהב */
             background: linear-gradient(135deg, #D4AF37 0%, #F3CD58 50%, #C59F2B 100%);
             box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
             transition: transform 0.3s, box-shadow 0.3s;
             text-align: center;
-            text-decoration: none;
             position: relative;
             overflow: hidden;
         }
@@ -116,103 +84,102 @@
             box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
         }
 
-        /* אפקט ברק על הכפתור */
         .btn-gold::after {
             content: '';
             position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
             background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
             transform: skewX(-25deg);
             animation: shine 3s infinite;
         }
 
-        @keyframes shine {
-            0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; }
-        }
-
-        /* --- Hero Section --- */
-        .hero {
+        /* Layout Structure */
+        .hero-section {
             background: linear-gradient(180deg, var(--mauve-light) 0%, #ffffff 100%);
-            padding: 60px 0 60px;
-            text-align: center;
             position: relative;
+            overflow: hidden;
+            padding-bottom: 40px;
         }
 
-        /* תגית עליונה */
-        .top-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background-color: white;
-            color: var(--mauve);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: 1rem;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(142, 123, 150, 0.1);
-            border: 1px solid rgba(142, 123, 150, 0.2);
+        .hero-bg-blob {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 600px;
+            height: 600px;
+            background: var(--mauve);
+            opacity: 0.05;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            animation: pulse-soft 15s ease-in-out infinite;
         }
 
-        /* תיבת הטופס - גרסה מהודקת וקומפקטית */
-        .form-box-wrapper {
+        /* Video Container styled like the Form Box */
+        .video-box-wrapper {
             background: white;
-            max-width: 500px; /* צמצום רוחב */
-            margin: 40px auto 0;
-            padding: 40px; /* פחות ריפוד */
+            max-width: 900px;
+            margin: 30px auto 0;
+            padding: 15px; 
             border-radius: 30px;
-            /* המסגרת העבה בצבע המותג הרך */
             border: 5px solid var(--mauve-light); 
             box-shadow: var(--shadow-card);
             position: relative;
             z-index: 10;
         }
 
-        .form-title {
-            font-size: 1.5rem; /* כותרת טופס עדינה יותר */
-            color: var(--primary-green);
-            margin-bottom: 5px;
-            line-height: 1.3;
-        }
-        
-        .form-subtitle {
-            font-size: 1.1rem;
-            color: var(--mauve);
-            margin-bottom: 25px;
-            font-weight: 500;
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 20px;
+            background-color: #000;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
         }
 
-        .form-group {
-            margin-bottom: 15px; /* צמצום מרווחים בין שדות */
-            text-align: right;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            color: var(--primary-green);
-            font-size: 1rem;
-        }
-
-        .form-input {
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 12px 15px; /* שדה קומפקטי יותר */
+            height: 100%;
+        }
+
+        /* Form Box Styling (Bottom) - Compact Version */
+        .form-box-wrapper {
+            background: white;
+            padding: 35px;
+            border-radius: 30px;
+            border: 5px solid var(--mauve-light);
+            box-shadow: var(--shadow-card);
+            position: relative;
+            z-index: 10;
+            max-width: 500px; /* Reduced width */
+            margin: 0 auto;
+        }
+
+        .input-styled {
+            width: 100%;
+            padding: 12px 15px;
             border: 2px solid #EEE;
             border-radius: 12px;
             font-family: 'Rubik', sans-serif;
-            font-size: 1rem; /* טקסט בגודל סטנדרטי */
+            font-size: 1rem;
             background-color: #FAFAFA;
             transition: all 0.3s;
         }
 
-        .form-input:focus {
+        .input-styled:focus {
             outline: none;
-            border-color: var(--accent-gold);
+            border-color: var(--accent);
             background-color: white;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
         }
-
+        
         .error-message {
             color: #e74c3c;
             font-size: 0.85rem;
@@ -220,242 +187,133 @@
             display: none;
         }
 
-        /* --- Content Sections --- */
-        .section-cards {
-            padding: 80px 0;
-            background-color: white;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 1px solid #f0f0f0;
-            transition: transform 0.3s;
-            text-align: center;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--mauve-light);
-        }
-
-        .card-icon {
-            width: 70px;
-            height: 70px;
-            background-color: var(--mauve-light);
-            color: var(--mauve);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-        }
-
-        /* --- About Section --- */
-        .about-section {
-            padding: 100px 0;
-            background-color: var(--bg-cream);
-        }
-
-        .about-grid {
-            display: flex;
-            align-items: center;
-            gap: 60px;
-        }
-
-        .about-img-box {
-            flex: 1;
-            position: relative;
-        }
-
-        .about-img {
-            width: 100%;
-            max-width: 450px;
-            border-radius: 40px;
-            border: 8px solid white;
-            box-shadow: var(--shadow-card);
-        }
-
-        .about-content {
-            flex: 1.2;
-        }
-
-        .about-quote-box {
-            border-right: 5px solid var(--mauve);
-            background: white;
-            padding: 25px;
-            margin: 25px 0;
-            border-radius: 10px 0 0 10px;
-            font-style: italic;
-            font-size: 1.2rem;
-            color: var(--primary-green);
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            h2 { font-size: 2rem; }
-            .hero { padding-top: 40px; }
-            .form-box-wrapper { padding: 30px 20px; margin-top: 30px; }
-            .about-grid { flex-direction: column; text-align: center; }
-            .about-quote-box { border-right: none; border-top: 5px solid var(--mauve); border-radius: 0 0 10px 10px; }
-            .form-title { font-size: 1.4rem; }
+        /* Background Pattern */
+        .bg-pattern {
+            background-image: radial-gradient(#8E7B96 0.5px, transparent 0.5px), radial-gradient(#1B4D3E 0.5px, #FFFDF7 0.5px);
+            background-size: 24px 24px;
+            opacity: 0.05;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen text-[#333333] font-sans flex flex-col">
 
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="container">
+    <!-- Hero Section with Video -->
+    <header class="hero-section pt-10 px-4">
+        <div class="hero-bg-blob"></div>
+        <div class="fixed inset-0 bg-pattern pointer-events-none z-0"></div>
+        
+        <div class="max-w-5xl mx-auto text-center relative z-10">
             
             <!-- Top Badge -->
-            <div class="top-badge animate delay-1">
-                <i data-lucide="play-circle" style="width: 18px;"></i>
-                הדרכה מוקלטת לצפייה מיידית
+            <div class="inline-flex items-center gap-2 px-5 py-1.5 bg-white rounded-full shadow-md text-base font-medium mb-6 text-[#8E7B96] border border-[#8E7B96]/20 animate-enter delay-100">
+                <i data-lucide="play-circle" class="w-4 h-4 fill-[#8E7B96]/10"></i>
+                <span>צפייה בהדרכה</span>
             </div>
 
             <!-- Titles -->
-            <h1 class="animate delay-2">
-                להכניס איזון אמיתי לחיים<br>
-                <span style="font-weight: 400; color: var(--mauve);">הרגל אחד בכל פעם</span>
+            <h1 class="text-3xl md:text-5xl font-bold leading-tight mb-3 text-[#1B4D3E] animate-enter delay-200">
+                להכניס איזון אמיתי לחיים
             </h1>
-
-            <p class="animate delay-3" style="font-size: 1.2rem;">
-                מרגישה שכל שינוי מתחיל בהתלהבות ואז מתמסמס?<br>
-                הגיע הזמן להפסיק להישען על כוח רצון ולעבור להתמדה חכמה.
+            
+            <p class="text-lg md:text-xl text-[#8E7B96] font-medium max-w-3xl mx-auto mb-6 animate-enter delay-200">
+                איך להפוך שינויים רגעיים להרגלים יציבים, בלי לחץ ובלי דרמות.
             </p>
 
-            <!-- FORM SECTION (IMMEDIATELY AFTER TITLE) -->
-            <div class="form-box-wrapper animate delay-3">
-                <div class="form-header">
-                    <h3 class="form-title">הצטרפי להדרכה מיוחדת (ללא עלות)</h3>
-                    <p class="form-subtitle">שתגלי בה דרך אחרת לחיים מאוזנים</p>
+            <!-- VIDEO BOX -->
+            <div class="video-box-wrapper animate-enter delay-300">
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://player.vimeo.com/video/1163070124?h=0831d30b86&badge=0&autopause=0&player_id=0&app_id=58479" 
+                        frameborder="0" 
+                        allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+                        title="הדרכה לאיזון והרגלים"
+                        allowfullscreen>
+                    </iframe>
                 </div>
-
-                <form id="registrationForm" novalidate>
-                    <div class="form-group">
-                        <label>שם מלא</label>
-                        <input type="text" name="fullName" class="form-input" placeholder="" required minlength="2">
-                        <div class="error-message">אנא הזינו שם מלא (לפחות 2 תווים)</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>טלפון נייד</label>
-                        <input type="tel" name="phone" class="form-input" placeholder="" required pattern="^[+]?[0-9\s\-]{9,20}$">
-                        <div class="error-message">אנא הזינו מספר טלפון תקין</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>כתובת מייל</label>
-                        <input type="email" name="email" class="form-input" placeholder="" required>
-                        <div class="error-message">אנא הזינו כתובת אימייל תקינה</div>
-                    </div>
-
-                    <button type="submit" class="btn-gold" style="margin-top: 10px;">
-                        אני רוצה צפייה מיידית בהדרכה
-                    </button>
-                    
-                    <p style="font-size: 0.9rem; margin-top: 15px; opacity: 0.8; margin-bottom: 0;">
-                        <i data-lucide="lock" style="width: 14px; display:inline; vertical-align:middle;"></i> פרטים מאובטחים
-                    </p>
-                </form>
             </div>
 
         </div>
     </header>
 
-    <!-- What You Will Learn -->
-    <section class="section-cards">
-        <div class="container">
-            <div style="text-align: center; margin-bottom: 50px;">
-                <h2>מה תלמדי בהדרכה?</h2>
-                <p style="font-size: 1.3rem; color: var(--mauve);">כלים לשקט תעשייתי וסדר פנימי</p>
-            </div>
-
-            <div class="cards-grid">
-                <div class="feature-card">
-                    <div class="card-icon"><i data-lucide="zap-off" style="width: 32px; height: 32px;"></i></div>
-                    <h3>הסוף ל"הכל או כלום"</h3>
-                    <p>איך להשתחרר מהגישה המעייפת ולצמוח בקצב שלך, בלי ליפול לתהומות של ייאוש.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="card-icon"><i data-lucide="target" style="width: 32px; height: 32px;"></i></div>
-                    <h3>בחירת ההרגל המדויק</h3>
-                    <p>איך לבחור שינוי אחד שבאמת מתאים לחיים העמוסים שלך ולא דורש משאבים שאין לך.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="card-icon"><i data-lucide="repeat" style="width: 32px; height: 32px;"></i></div>
-                    <h3>מנגנון ההתמדה</h3>
-                    <p>הדרך הפשוטה לבנות משוב שבועי ששומר עלייך במסלול ונותן מוטיבציה להמשיך.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="card-icon"><i data-lucide="check-circle" style="width: 32px; height: 32px;"></i></div>
-                    <h3>תוכנית מעשית</h3>
-                    <p>צעדים קונקרטיים שתוכלי ליישם כבר הערב, בלי לחץ ובלי דרמות מיותרות.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about-section">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-content">
-                    <h2 style="font-size: 3rem; margin-bottom: 20px;">נעים להכיר,<br><span style="color: var(--mauve);">אני רבקה הולצברג</span></h2>
-                    
-                    <p style="font-size: 1.2rem;">
-                        אני יודעת בדיוק איך זה מרגיש להתחיל תהליך עם כל הלב, ואז לאט־לאט לאבד את הקצב.
-                        כבר שנים אני מלווה נשים בתהליכים של ירידה במשקל ואורח חיים בריא.
-                    </p>
-                    
-                    <div class="about-quote-box">
-                        "גם אני בעצמי הייתי שם - ניסיתי תפריטים, ניסיתי משמעת... עד שהבנתי שהשינוי האמיתי לא קורה בבת אחת."
+    <!-- Consultation Form Section -->
+    <section class="pb-20 pt-8 relative" style="background-color: var(--cream);"> 
+        <div class="container mx-auto px-4 relative z-10">
+            
+            <div class="form-box-wrapper animate-enter delay-400">
+                
+                <div id="initialContent">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-bold mb-2 text-[#1B4D3E]">
+                            רוצה ליישם את מה שלמדת?
+                        </h2>
+                        <p class="text-base text-[#8E7B96] font-light">
+                            השאירי פרטים לשיחת ייעוץ קצרה לבדיקת התאמה
+                        </p>
                     </div>
 
-                    <p style="font-size: 1.2rem;">
-                        הבנתי שהשינוי נבנה מהרגל אחד בכל פעם. בהדרכה הזו אני חושפת את השיטה שעזרה לי ולמאות נשים אחרות למצוא איזון אמיתי.
+                    <!-- Form -->
+                    <form id="consultationForm" class="flex flex-col gap-4 text-right">
+                        <div>
+                            <label class="block text-[#1B4D3E] font-bold mb-1 text-sm">שם מלא</label>
+                            <input type="text" name="fullName" class="input-styled" required minlength="2">
+                            <div class="error-message">אנא הזינו שם מלא (לפחות 2 תווים)</div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[#1B4D3E] font-bold mb-1 text-sm">טלפון נייד</label>
+                            <input type="tel" name="phone" class="input-styled" required pattern="^[+]?[0-9\s\-]{9,20}$">
+                            <div class="error-message">אנא הזינו מספר טלפון תקין</div>
+                        </div>
+
+                        <button type="submit" class="btn-gold mt-3">
+                            כן, אשמח לשמוע פרטים
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Success Message (Hidden) -->
+                <div id="successMessage" class="hidden text-center py-8 animate-enter">
+                    <div class="w-20 h-20 bg-[#F0FDF4] rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-[#DCFCE7]">
+                        <i data-lucide="check" class="w-10 h-10 text-[#1B4D3E]"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-[#1B4D3E] mb-3">הפרטים התקבלו בהצלחה!</h3>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        איזה כיף שעשית את הצעד הזה.<br>
+                        אנחנו ניצור איתך קשר בהקדם.
                     </p>
                 </div>
-                
-                <div class="about-img-box">
-                    <img src="profile.jpg.jpg" alt="רבקה הולצברג" class="about-img">
-                </div>
+
             </div>
         </div>
+        
+        <!-- Decorative Blob Bottom -->
+        <div style="position: absolute; bottom: -100px; left: -100px; width: 500px; height: 500px; background: var(--primary); opacity: 0.03; border-radius: 50%; filter: blur(80px); z-index: 0;"></div>
     </section>
 
-    <!-- Footer -->
-    <div id="legal-footer-container" style="text-align: center; padding: 40px 0; opacity: 0.6; font-size: 0.9rem;">
+    <!-- Footer Container -->
+    <div id="legal-footer-container" class="w-full pb-8 text-center text-sm opacity-60 bg-[#FDFBF7] pt-4 mt-auto">
         <script src="https://rivkaol.github.io/legal-footer.js"></script>
     </div>
 
-    <!-- Scripts -->
+    <!-- Logic Script -->
     <script>
+        // Initialize Icons
         lucide.createIcons();
 
-        const WEBHOOK_URL = 'https://hook.eu2.make.com/on92hq4nkddrpn5b2ugp5lt7wihioyrg';
+        // Webhook URL
+        const WEBHOOK_URL = 'https://hook.eu2.make.com/vm6hivoxsunvh448tn3js8lyqqgmfrtx';
 
-        const form = document.getElementById('registrationForm');
+        const form = document.getElementById('consultationForm');
+        const initialContent = document.getElementById('initialContent');
+        const successMsg = document.getElementById('successMessage');
         const btn = form.querySelector('button');
         const originalBtnContent = btn.innerHTML;
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // בדיקת ולידציה בסיסית של HTML5
+            // Validation
             if (!form.checkValidity()) {
-                // מציג הודעות שגיאה
                 const inputs = form.querySelectorAll('input');
                 inputs.forEach(input => {
                     if (!input.validity.valid) {
@@ -466,19 +324,20 @@
                 return;
             }
 
-            // איפוס הודעות שגיאה
+            // Hide errors
             document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
 
-            // מצב טעינה
+            // Loading State
             btn.disabled = true;
             btn.innerHTML = 'שולח...';
 
-            // איסוף נתונים
+            // Collect Data
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
+            data.source = "Video Page Consultation"; 
 
             try {
-                // שליחה ל-Webhook
+                // Send to Make Webhook
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -486,8 +345,11 @@
                 });
 
                 if (response.ok) {
-                    // הפניה מיידית
-                    window.location.href = 'web.html';
+                    // Show Success
+                    initialContent.style.display = 'none';
+                    successMsg.classList.remove('hidden');
+                    successMsg.classList.add('animate-enter');
+                    lucide.createIcons();
                 } else {
                     throw new Error('Network response was not ok');
                 }
@@ -499,8 +361,8 @@
                 lucide.createIcons();
             }
         });
-
-        // הסתרת הודעות שגיאה בעת הקלדה
+        
+        // Hide error on input
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('input', () => {
                 const errorMsg = input.parentNode.querySelector('.error-message');
