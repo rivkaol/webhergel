@@ -20,17 +20,22 @@
             font-family: 'Rubik', sans-serif;
         }
 
-        /* Custom Colors */
+        /* Custom Colors - Matching Index Page Exactly */
         :root {
-            --primary: #1B4D3E;
-            --accent: #D4AF37;
-            --slate: #708090;
-            --cream: #FDFBF7;
+            --primary: #1B4D3E; /* Forest Green */
+            --mauve: #8E7B96;   /* Dusty Lavender */
+            --mauve-light: #F4EFF6; /* Light Lavender Background */
+            --accent: #D4AF37;  /* Shiny Gold */
+            --cream: #FDFBF7;   /* Warm Cream */
+            
+            /* Shadows & Radius */
+            --shadow-card: 0 15px 40px rgba(142, 123, 150, 0.12);
+            --radius-btn: 50px;
         }
 
-        /* Animations from Masterclass Page */
+        /* Animations */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
@@ -40,10 +45,9 @@
             100% { left: 100%; opacity: 0; }
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); opacity: 0.05; }
+            50% { transform: scale(1.05); opacity: 0.08; }
         }
 
         .animate-enter {
@@ -56,35 +60,77 @@
         .delay-300 { animation-delay: 0.3s; }
         .delay-400 { animation-delay: 0.4s; }
 
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .btn-shine {
+        /* The Shiny Gold Button (Same as Index) */
+        .btn-gold {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            border: none;
+            border-radius: var(--radius-btn);
+            cursor: pointer;
+            background: linear-gradient(135deg, #D4AF37 0%, #F3CD58 50%, #C59F2B 100%);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .btn-shine::after {
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-gold::after {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
             transform: skewX(-25deg);
             animation: shine 3s infinite;
         }
 
-        /* Background Pattern - Same as Masterclass */
-        .bg-pattern {
-            background-image: radial-gradient(#708090 0.5px, transparent 0.5px), radial-gradient(#1B4D3E 0.5px, #FDFBF7 0.5px);
-            background-size: 24px 24px;
-            opacity: 0.03;
+        /* Layout Structure */
+        .hero-section {
+            background: linear-gradient(180deg, var(--mauve-light) 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 40px;
         }
 
-        /* Video Wrapper */
+        .hero-bg-blob {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 600px;
+            height: 600px;
+            background: var(--mauve);
+            opacity: 0.05;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            animation: pulse-soft 15s ease-in-out infinite;
+        }
+
+        /* Video Container styled like the Form Box */
+        .video-box-wrapper {
+            background: white;
+            max-width: 900px;
+            margin: 30px auto 0;
+            padding: 15px; 
+            border-radius: 30px;
+            border: 5px solid var(--mauve-light); 
+            box-shadow: var(--shadow-card);
+            position: relative;
+            z-index: 10;
+        }
+
         .video-wrapper {
             position: relative;
             padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
@@ -92,6 +138,7 @@
             overflow: hidden;
             border-radius: 20px;
             background-color: #000;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
         }
 
         .video-wrapper iframe {
@@ -101,31 +148,80 @@
             width: 100%;
             height: 100%;
         }
+
+        /* Form Box Styling (Bottom) - Compact Version */
+        .form-box-wrapper {
+            background: white;
+            padding: 35px;
+            border-radius: 30px;
+            border: 5px solid var(--mauve-light);
+            box-shadow: var(--shadow-card);
+            position: relative;
+            z-index: 10;
+            max-width: 500px; /* Reduced width */
+            margin: 0 auto;
+        }
+
+        .input-styled {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #EEE;
+            border-radius: 12px;
+            font-family: 'Rubik', sans-serif;
+            font-size: 1rem;
+            background-color: #FAFAFA;
+            transition: all 0.3s;
+        }
+
+        .input-styled:focus {
+            outline: none;
+            border-color: var(--accent);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        /* Background Pattern */
+        .bg-pattern {
+            background-image: radial-gradient(#8E7B96 0.5px, transparent 0.5px), radial-gradient(#1B4D3E 0.5px, #FFFDF7 0.5px);
+            background-size: 24px 24px;
+            opacity: 0.05;
+        }
     </style>
 </head>
-<body class="min-h-screen text-[#333333] bg-[#FDFBF7] relative overflow-x-hidden flex flex-col">
+<body class="min-h-screen text-[#333333] font-sans flex flex-col">
 
-    <!-- Background Pattern -->
-    <div class="fixed inset-0 bg-pattern pointer-events-none z-0"></div>
-
-    <!-- Main Content -->
-    <div class="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 flex-grow">
+    <!-- Hero Section with Video -->
+    <header class="hero-section pt-10 px-4">
+        <div class="hero-bg-blob"></div>
+        <div class="fixed inset-0 bg-pattern pointer-events-none z-0"></div>
         
-        <!-- Video Section (Designed like Hero) -->
-        <div class="text-center mb-16 animate-enter">
+        <div class="max-w-5xl mx-auto text-center relative z-10">
             
-            <!-- Removed the "Watch Training" Top Tag per request -->
+            <!-- Top Badge -->
+            <div class="inline-flex items-center gap-2 px-5 py-1.5 bg-white rounded-full shadow-md text-base font-medium mb-6 text-[#8E7B96] border border-[#8E7B96]/20 animate-enter delay-100">
+                <i data-lucide="play-circle" class="w-4 h-4 fill-[#8E7B96]/10"></i>
+                <span>צפייה בהדרכה</span>
+            </div>
 
-            <h1 class="text-3xl md:text-5xl font-bold text-[#1B4D3E] mb-6 drop-shadow-sm">
+            <!-- Titles -->
+            <h1 class="text-3xl md:text-5xl font-bold leading-tight mb-3 text-[#1B4D3E] animate-enter delay-200">
                 להכניס איזון אמיתי לחיים
             </h1>
-            <p class="text-lg md:text-xl text-[#708090] max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
+            
+            <p class="text-lg md:text-xl text-[#8E7B96] font-medium max-w-3xl mx-auto mb-6 animate-enter delay-200">
                 איך להפוך שינויים רגעיים להרגלים יציבים, בלי לחץ ובלי דרמות.
             </p>
 
-            <!-- Video Container (Glassmorphism Card Style) -->
-            <div class="bg-white p-3 md:p-4 rounded-[32px] shadow-[0_30px_60px_rgba(27,77,62,0.08)] border border-slate-50 max-w-4xl mx-auto transform hover:-translate-y-1 transition-transform duration-500">
-                <div class="video-wrapper shadow-inner rounded-[24px]">
+            <!-- VIDEO BOX -->
+            <div class="video-box-wrapper animate-enter delay-300">
+                <div class="video-wrapper">
                     <iframe 
                         src="https://player.vimeo.com/video/1163070124?h=0831d30b86&badge=0&autopause=0&player_id=0&app_id=58479" 
                         frameborder="0" 
@@ -135,72 +231,67 @@
                     </iframe>
                 </div>
             </div>
+
         </div>
+    </header>
 
-        <!-- CTA / Form Section (Matching Masterclass Design) -->
-        <div class="max-w-3xl mx-auto mb-20 animate-enter delay-200">
-            <!-- Background Blobs for vitality -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none z-0">
-                <div class="absolute top-0 right-[-100px] w-60 h-60 rounded-full bg-white blur-[80px] opacity-60 animate-float"></div>
-                <div class="absolute bottom-[-50px] left-[-100px] w-80 h-80 rounded-full blur-[80px] bg-[#1B4D3E] opacity-5 animate-float" style="animation-delay: 2s;"></div>
-            </div>
-
-            <div class="bg-white rounded-[40px] p-8 md:p-14 shadow-[0_30px_60px_rgba(27,77,62,0.06)] border border-slate-50 relative overflow-hidden z-10">
+    <!-- Consultation Form Section -->
+    <section class="pb-20 pt-8 relative" style="background-color: var(--cream);"> 
+        <div class="container mx-auto px-4 relative z-10">
+            
+            <div class="form-box-wrapper animate-enter delay-400">
                 
                 <div id="initialContent">
-                    <div class="text-center mb-10">
-                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-[#1B4D3E]">
-                            רוצה ליישם את מה שלמדת בהדרכה?
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-bold mb-2 text-[#1B4D3E]">
+                            רוצה ליישם את מה שלמדת?
                         </h2>
-                        <p class="text-lg text-gray-600 leading-relaxed font-light">
-                            השאירי פרטים לשיחת ייעוץ קצרה לבדיקת התאמה לתוכנית הליווי,
-                            ונראה איך אפשר לעזור לך לבנות שגרה מאוזנת שתחזיק מעמד.
+                        <p class="text-base text-[#8E7B96] font-light">
+                            השאירי פרטים לשיחת ייעוץ קצרה לבדיקת התאמה
                         </p>
                     </div>
 
                     <!-- Form -->
-                    <form id="consultationForm" class="flex flex-col gap-6 max-w-md mx-auto">
-                        <div class="relative group">
-                            <i data-lucide="user" class="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors w-5 h-5"></i>
-                            <input type="text" name="fullName" placeholder="שם מלא" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required minlength="2">
+                    <form id="consultationForm" class="flex flex-col gap-4 text-right">
+                        <div>
+                            <label class="block text-[#1B4D3E] font-bold mb-1 text-sm">שם מלא</label>
+                            <input type="text" name="fullName" class="input-styled" required minlength="2">
+                            <div class="error-message">אנא הזינו שם מלא (לפחות 2 תווים)</div>
                         </div>
                         
-                        <div class="relative group">
-                            <i data-lucide="phone" class="absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors w-5 h-5"></i>
-                            <!-- International Number Support -->
-                            <input type="tel" name="phone" placeholder="מספר נייד" class="w-full p-4 pr-12 rounded-2xl border border-slate-100 bg-[#F8FAFC] text-lg outline-none transition-all focus:bg-white focus:border-[#D4AF37] focus:shadow-md placeholder-gray-400" required pattern="^[+]?[0-9\s\-]{9,20}$" title="נא להזין מספר טלפון תקין">
+                        <div>
+                            <label class="block text-[#1B4D3E] font-bold mb-1 text-sm">טלפון נייד</label>
+                            <input type="tel" name="phone" class="input-styled" required pattern="^[+]?[0-9\s\-]{9,20}$">
+                            <div class="error-message">אנא הזינו מספר טלפון תקין</div>
                         </div>
 
-                        <button type="submit" class="btn-shine w-full py-5 text-xl font-bold text-white rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex justify-center items-center gap-3 mt-4" style="background: linear-gradient(135deg, #1B4D3E, #2C6E5A);">
-                            <span class="relative z-10">כן, אשמח לשמוע פרטים</span>
-                            <i data-lucide="chevron-left" class="relative z-10 w-6 h-6 stroke-[3]"></i>
+                        <button type="submit" class="btn-gold mt-3">
+                            כן, אשמח לשמוע פרטים
                         </button>
-                        
-                        <div class="error-message hidden text-red-500 text-sm text-center font-medium mt-2 bg-red-50 py-2 rounded-lg">
-                            נא לתקן את השדות המסומנים
-                        </div>
                     </form>
                 </div>
 
                 <!-- Success Message (Hidden) -->
-                <div id="successMessage" class="hidden text-center py-10 animate-enter">
+                <div id="successMessage" class="hidden text-center py-8 animate-enter">
                     <div class="w-20 h-20 bg-[#F0FDF4] rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-[#DCFCE7]">
                         <i data-lucide="check" class="w-10 h-10 text-[#1B4D3E]"></i>
                     </div>
-                    <h3 class="text-3xl font-bold text-[#1B4D3E] mb-3">הפרטים התקבלו בהצלחה!</h3>
-                    <p class="text-lg text-gray-600">
+                    <h3 class="text-2xl font-bold text-[#1B4D3E] mb-3">הפרטים התקבלו בהצלחה!</h3>
+                    <p class="text-lg text-gray-600 leading-relaxed">
                         איזה כיף שעשית את הצעד הזה.<br>
-                        אנחנו ניצור איתך קשר בהקדם כדי להתאים לך את הפתרון המדויק.
+                        אנחנו ניצור איתך קשר בהקדם.
                     </p>
                 </div>
 
             </div>
         </div>
-
-    </div>
+        
+        <!-- Decorative Blob Bottom -->
+        <div style="position: absolute; bottom: -100px; left: -100px; width: 500px; height: 500px; background: var(--primary); opacity: 0.03; border-radius: 50%; filter: blur(80px); z-index: 0;"></div>
+    </section>
 
     <!-- Footer Container -->
-    <div id="legal-footer-container" class="w-full pb-8 text-center text-sm opacity-70 mt-auto">
+    <div id="legal-footer-container" class="w-full pb-8 text-center text-sm opacity-60 bg-[#FDFBF7] pt-4 mt-auto">
         <script src="https://rivkaol.github.io/legal-footer.js"></script>
     </div>
 
@@ -209,13 +300,12 @@
         // Initialize Icons
         lucide.createIcons();
 
-        // New Webhook URL
+        // Webhook URL
         const WEBHOOK_URL = 'https://hook.eu2.make.com/vm6hivoxsunvh448tn3js8lyqqgmfrtx';
 
         const form = document.getElementById('consultationForm');
         const initialContent = document.getElementById('initialContent');
         const successMsg = document.getElementById('successMessage');
-        const errorMsg = form.querySelector('.error-message');
         const btn = form.querySelector('button');
         const originalBtnContent = btn.innerHTML;
 
@@ -224,19 +314,26 @@
             
             // Validation
             if (!form.checkValidity()) {
-                errorMsg.classList.remove('hidden');
+                const inputs = form.querySelectorAll('input');
+                inputs.forEach(input => {
+                    if (!input.validity.valid) {
+                        const errorMsg = input.parentNode.querySelector('.error-message');
+                        if (errorMsg) errorMsg.style.display = 'block';
+                    }
+                });
                 return;
             }
-            errorMsg.classList.add('hidden');
+
+            // Hide errors
+            document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
 
             // Loading State
             btn.disabled = true;
-            btn.innerHTML = '<span class="relative z-10">שולח...</span>';
+            btn.innerHTML = 'שולח...';
 
             // Collect Data
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
-            // Add source tag to identify this came from the video page
             data.source = "Video Page Consultation"; 
 
             try {
@@ -264,6 +361,15 @@
                 lucide.createIcons();
             }
         });
+        
+        // Hide error on input
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                const errorMsg = input.parentNode.querySelector('.error-message');
+                if (errorMsg) errorMsg.style.display = 'none';
+            });
+        });
     </script>
 </body>
 </html>
+
