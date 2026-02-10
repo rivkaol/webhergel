@@ -72,13 +72,14 @@
 
         strong { color: var(--mauve); }
 
-        /* טקסט יוקרתי מוזהב */
+        /* טקסט יוקרתי מוזהב - מתוקן */
         .luxury-gold-text {
-            background: linear-gradient(135deg, #D4AF37 0%, #B88A00 100%);
+            /* גרדיאנט בהיר יותר עם ברק באמצע */
+            background: linear-gradient(135deg, #C59F2B 0%, #FFE587 50%, #C59F2B 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            text-shadow: 0px 1px 1px rgba(0,0,0,0.05);
+            font-weight: 600; /* הורדת עובי */
+            filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1));
         }
 
         /* --- אנימציות --- */
@@ -378,7 +379,7 @@
             <!-- FORM SECTION (IMMEDIATELY AFTER TITLE) -->
             <div class="form-box-wrapper animate delay-3">
                 <div class="form-header">
-                    <!-- Updated text: more luxury gold effect -->
+                    <!-- Updated text: Lighter gold, less bold -->
                     <h3 class="form-title">הצטרפי להדרכה מיוחדת <span class="luxury-gold-text">ללא עלות</span></h3>
                     <p class="form-subtitle">שתגלי בה דרך אחרת לחיים מאוזנים</p>
                 </div>
@@ -395,8 +396,6 @@
                         <input type="tel" name="phone" class="form-input" placeholder="" required pattern="^[+]?[0-9\s\-]{9,20}$">
                         <div class="error-message">אנא הזינו מספר טלפון תקין</div>
                     </div>
-
-                    <!-- Email field removed -->
 
                     <button type="submit" class="btn-gold" style="margin-top: 10px;">
                         אני רוצה צפייה מיידית בהדרכה
@@ -473,7 +472,7 @@
                 </div>
                 
                 <div class="about-img-box">
-                    <img src="profile.jpg.jpg" alt="רבקה הולצברג" class="about-img">
+                    <img src="me.jpg" alt="רבקה הולצברג" class="about-img">
                 </div>
             </div>
         </div>
@@ -537,20 +536,8 @@
                 }
 
                 if (responseOK) {
-                    // Success Overlay
-                    const wrapper = document.querySelector('.form-box-wrapper');
-                    const successDiv = document.createElement('div');
-                    successDiv.className = 'success-overlay';
-                    successDiv.innerHTML = `
-                        <div style="color: var(--primary-green); margin-bottom: 15px;">
-                            <i data-lucide="check-circle" style="width: 50px; height: 50px;"></i>
-                        </div>
-                        <h3 style="color: var(--primary-green);">נרשמת בהצלחה!</h3>
-                        <p>ההדרכה נשלחה אלייך למייל.</p>
-                        <button class="btn-gold" style="width: auto; padding: 10px 30px; font-size: 1rem;" onclick="location.reload()">חזרה</button>
-                    `;
-                    wrapper.appendChild(successDiv);
-                    lucide.createIcons();
+                    // הפניה מיידית לעמוד הוובינר
+                    window.location.href = 'web.html';
                 } else {
                     throw new Error('Network response was not ok');
                 }
